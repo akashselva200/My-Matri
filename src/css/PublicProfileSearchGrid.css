@@ -1,0 +1,104 @@
+/* General styles */
+.page-container {
+  width: 165rex;
+  margin: 0 auto;
+
+}
+
+.page-container .Header-container{
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  
+}
+
+/* Search form styles */
+.advanced-search {
+  width: 96em;
+  padding: 10px;
+}
+
+.search-header {
+  font-size: 23px;
+  color: #69AF00;
+  font-family: Georgia;
+  font-weight: bold;
+ 
+}
+
+.Header-container
+{
+ 
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  margin-right: 2px;
+  
+}
+
+.search-form-container {
+  padding: 10px;
+}
+
+.search-table {
+  width: 83%;
+  border-collapse: collapse;
+  border: 2px solid #FF0000;
+  background-color: #D7E1FF;
+}
+
+.inner-search-table {
+  width: 100%;
+}
+
+.gender-select, .language-select, .caste-select, .subcaste-select, .sort-by-select, .age-select, .marital-status-select, .search-button {
+  padding: 3px;
+  border-bottom: 1px solid rgb(83, 184, 196);
+}
+
+
+/* Profile grid styles */
+.profile-grid-container {
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.profile-grid {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgb(255, 255, 255);
+
+}
+
+.grid-header {
+  background-color: #031086;
+  color: White;
+
+
+}
+
+.grid-header th {
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #96c035;
+  font-family: 'Times New Roman', Times, serif;
+
+}
+
+.grid-row td {
+  padding: 5px;
+  border-bottom: 1px solid #F1FADC;
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+  color: #920b0b;
+  background-color: white;
+}
+
+.grid-row:nth-child(even) td {
+  background-color: rgb(238, 243, 255);
+}
+
+.grid-row img {
+  width: 100px;
+}

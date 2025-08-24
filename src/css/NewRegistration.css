@@ -1,0 +1,741 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+/* --- Personal and Family Details Section (Green Theme) --- */
+.personal-details-section {
+  background: #f6fff6;
+  border: 2px solid #69af00;
+  border-radius: 10px;
+  padding: 22px 28px 18px 28px;
+  margin: 28px 0 18px 0;
+  box-shadow: 0 2px 8px #e0f3e0;
+}
+
+.personal-details-legend {
+  background-color: #006633;
+padding: 3px 30px;
+font-weight: bold;
+color: white;
+text-align: center;
+display: block;
+width: 100%;
+border-radius: 0;
+margin-left: -30px;
+margin-right: 30px;
+}
+
+.personal-details-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.personal-details-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #265371;
+  font-weight: 500;
+  min-width: 160px;
+  margin-bottom: 0;
+}
+
+.personal-details-input,
+.personal-details-select,
+.personal-details-textarea {
+  width: 150px;
+  padding: 7px 10px;
+  border: 1px solid #b3e6b3;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+  color: #265371;
+  margin-top: 4px;
+}
+
+.personal-details-textarea {
+  min-height: 48px;
+  resize: vertical;
+}
+
+@media (max-width: 700px) {
+  .personal-details-section {
+    padding: 10px;
+  }
+  .personal-details-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .personal-details-label,
+  .personal-details-input,
+  .personal-details-select,
+  .personal-details-textarea {
+    width: 100%;
+  }
+}
+/* ---  --- */
+
+/* --- Physical Attributes Section (Green Theme) --- */
+.physical-attributes-section {
+  background: #f6fff6;
+  border: 2px solid #69af00;
+  border-radius: 10px;
+  padding: 22px 28px 18px 28px;
+  margin: 28px 0 18px 0;
+  box-shadow: 0 2px 8px #e0f3e0;
+}
+
+.physical-attributes-legend {
+background-color: #006633;
+padding: 3px 30px;
+font-weight: bold;
+color: white;
+text-align: center;
+display: block;
+width: 100%;
+border-radius: 0;
+margin-left: -30px;
+margin-right: 30px;
+}
+
+.physical-attributes-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.physical-attributes-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #265371;
+  font-weight: 500;
+  min-width: 160px;
+  margin-bottom: 0;
+}
+
+.physical-attributes-input,
+.physical-attributes-select {
+  width: 150px;
+  padding: 7px 10px;
+  border: 1px solid #b3e6b3;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+  color: #265371;
+  margin-top: 4px;
+}
+
+@media (max-width: 700px) {
+  .physical-attributes-section {
+    padding: 10px;
+  }
+  .physical-attributes-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .physical-attributes-label,
+  .physical-attributes-input,
+  .physical-attributes-select {
+    width: 100%;
+  }
+}
+/* ---  --- */
+
+/* --- Education & Occupation Section (Green Theme) --- */
+.education-occupation-section {
+  background: #f6fff6;
+  border: 2px solid #69af00;
+  border-radius: 10px;
+  padding: 22px 28px 18px 28px;
+  margin: 28px 0 18px 0;
+  box-shadow: 0 2px 8px #e0f3e0;
+}
+
+.education-occupation-legend {
+  background-color: #006633;
+padding: 3px 30px;
+font-weight: bold;
+color: white;
+text-align: center;
+display: block;
+width: 100%;
+border-radius: 0;
+margin-left: -30px;
+margin-right: 30px;
+}
+
+.education-occupation-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.education-occupation-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #265371;
+  font-weight: 500;
+  min-width: 160px;
+  margin-bottom: 0;
+}
+
+.education-occupation-input,
+.education-occupation-select {
+  width: 150px;
+  padding: 7px 10px;
+  border: 1px solid #b3e6b3;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+  color: #265371;
+  margin-top: 4px;
+}
+
+@media (max-width: 700px) {
+  .education-occupation-section {
+    padding: 10px;
+  }
+  .education-occupation-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .education-occupation-label,
+  .education-occupation-input,
+  .education-occupation-select {
+    width: 100%;
+  }
+}
+/* ---  --- */
+
+/* --- Astrology Details Section (Green Theme) --- */
+.astrology-details-section {
+  background: #f6fff6;
+  border: 2px solid #69af00;
+  border-radius: 10px;
+  padding: 22px 28px 18px 28px;
+  margin: 28px 0 18px 0;
+  box-shadow: 0 2px 8px #e0f3e0;
+}
+
+.astrology-details-legend {
+background-color: #006633;
+padding: 3px 30px;
+font-weight: bold;
+color: white;
+text-align: center;
+display: block;
+width: 100%;
+border-radius: 0;
+margin-left: -30px;
+margin-right: 30px;
+}
+
+.astrology-details-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.astrology-details-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #265371;
+  font-weight: 500;
+  min-width: 160px;
+  margin-bottom: 0;
+}
+
+.astrology-details-input,
+.astrology-details-select {
+  width: 150px;
+  padding: 7px 10px;
+  border: 1px solid #b3e6b3;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+  color: #265371;
+  margin-top: 4px;
+}
+
+@media (max-width: 700px) {
+  .astrology-details-section {
+    padding: 10px;
+  }
+  .astrology-details-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .astrology-details-label,
+  .astrology-details-input,
+  .astrology-details-select {
+    width: 100%;
+  }
+}
+/* ---  --- */
+
+/* --- Communication Details Section (Green Theme) --- */
+.communication-details-section {
+  background: #f6fff6;
+  border: 2px solid #69af00;
+  border-radius: 10px;
+  padding: 22px 28px 18px 28px;
+  margin: 28px 0 18px 0;
+  box-shadow: 0 2px 8px #e0f3e0;
+}
+
+.communication-details-legend {
+background-color: #006633;
+padding: 3px 30px;
+font-weight: bold;
+color: white;
+text-align: center;
+display: block;
+width: 100%;
+border-radius: 0;
+margin-left: -30px;
+margin-right: 30px;
+}
+
+.communication-details-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.communication-details-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #265371;
+  font-weight: 500;
+  min-width: 160px;
+  margin-bottom: 0;
+}
+
+.communication-details-input,
+.communication-details-textarea {
+  width: 150px;
+  padding: 7px 10px;
+  border: 1px solid #b3e6b3;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+  color: #265371;
+  margin-top: 4px;
+  resize: none;
+}
+
+.communication-details-textarea {
+  min-height: 48px;
+}
+
+@media (max-width: 700px) {
+  .communication-details-section {
+    padding: 10px;
+  }
+  .communication-details-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .communication-details-label,
+  .communication-details-input,
+  .communication-details-textarea {
+    width: 100%;
+  }
+}
+
+/* */
+
+/* --- Partner Expectation Section (Green Theme) --- */
+.partner-expectation-section {
+  background: #f6fff6;
+  border: 2px solid #69af00;
+  border-radius: 10px;
+  padding: 22px 28px 18px 28px;
+  margin: 28px 0 18px 0;
+  box-shadow: 0 2px 8px #e0f3e0;
+}
+
+.partner-expectation-legend {
+ background-color: #006633;
+padding: 3px 30px;
+font-weight: bold;
+color: white;
+text-align: center;
+display: block;
+width: 100%;
+border-radius: 0;
+margin-left: -30px;
+margin-right: 30px;
+}
+
+/* --- photo section --- */
+.photo-section {
+  background: #f6fff6;
+  border: 2px solid #69af00;
+  border-radius: 10px;
+  padding: 22px 28px 18px 28px;
+  margin: 28px 0 18px 0;
+  box-shadow: 0 2px 8px #e0f3e0;
+}
+
+.photo-section-legend {
+ background-color: #006633;
+padding: 3px 30px;
+font-weight: bold;
+color: white;
+text-align: center;
+display: block;
+width: 100%;
+border-radius: 0;
+margin-left: -30px;
+margin-right: 30px;
+}
+
+/* --- scheme details section --- */
+.scheme-details-section {
+  background: #f6fff6;
+  border: 2px solid #69af00;
+  border-radius: 10px;
+  padding: 22px 28px 18px 28px;
+  margin: 28px 0 18px 0;
+  box-shadow: 0 2px 8px #e0f3e0;
+}
+
+.scheme-details-legend {
+ background-color: #006633;
+padding: 3px 30px;
+font-weight: bold;
+color: white;
+text-align: center;
+display: block;
+width: 100%;
+border-radius: 0;
+margin-left: -30px;
+margin-right: 30px;
+}
+/* */
+
+
+
+
+.modal {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    z-index: 100;
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+    min-height: 100%;
+}
+
+#divImage {
+    display: none;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: White;
+    width: 600px;
+    padding: 3px;
+    border: solid 1px black;
+}
+
+/* From stylsheet.css */
+.bgcolor {
+    background-color: #ffffff;
+}
+
+.align {
+    padding: 50px;
+    text-align: center;
+}
+
+.welcometxt {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #69AF00;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+a.Logout {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #3366FF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a.Logout:hover {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #000000;
+}
+
+.link {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #69AF00;
+    font-size: 12px;
+    text-align: center;
+    border-left: solid 1px #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.tamil {
+    text-align: center;
+    color: #990000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.tamil {
+    border-right: solid 1px #990000;
+}
+
+.Wedding {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: center;
+    letter-spacing: 1px;
+    background-color: #990000;
+    height: 30px;
+}
+
+.list {
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 20px;
+    color: #990000;
+    text-align: left;
+    border-bottom: solid 1px #FFFFFF;
+    font-size: 12px;
+    height: 25px;
+}
+
+.p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #FF0000;
+    padding: 5px;
+    text-align: justify;
+    line-height: 24px;
+}
+
+.Label12 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #555555;
+    font-weight: bold;
+}
+
+.welcome {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #990000;
+    padding: 10px;
+}
+
+.head {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #002E5B;
+    font-size: 12px;
+    padding: 5px;
+    text-align: justify;
+}
+
+.sublink {
+    text-decoration: none;
+    color: #990000;
+}
+
+.mainlink {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.indexform {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+    background-color: #ffffff;
+    font-size: 12px;
+}
+
+.select {
+    width: 100px;
+}
+
+.wselect {
+    width: 150px;
+}
+
+.hight {
+    height: 30px;
+    vertical-align: middle;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #555555;
+    font-size: 12px;
+    padding-right: 20px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.Label {
+    color: #2E2E2E;
+    font-size: 14px;
+    font-family: Arial;
+    padding: 2px;
+    letter-spacing: 1px;
+}
+
+.TextBox {
+    color: #2E2E2E;
+    font-size: 11px;
+    font-family: Arial;
+    border: 1px solid #999966;
+    height: 18px;
+}
+
+.TextBox_Cap {
+    color: #2E2E2E;
+    font-size: 11px;
+    font-family: Arial;
+    height: 15px;
+    text-transform: capitalize;
+}
+
+.dd_NoWidth {
+    font-family: Trebuchet MS;
+    font-size: 11px;
+    color: #646464;
+    border: 1px solid #555555;
+    height: 20px;
+}
+
+.dd_NoWidth_WhiteBorder {
+    font-family: Trebuchet MS;
+    font-size: 11px;
+    color: #646464;
+    height: 20px;
+    border: 1px solid #ffffff;
+}
+
+.Label_Head {
+    font-family: Arial;
+    font-size: 16px;
+    color: green;
+    padding: 10px;
+    padding-left: 30px;
+    font-weight: bold;
+}
+
+.Grid_Header {
+    font-family: Arial;
+    font-size: 12px;
+    color: #ffffff;
+    height: 30px;
+    vertical-align: middle;
+    background-color: #006633;
+    text-align: center;
+    width: 100px;
+    text-decoration: none;
+}
+
+.Grid_Content {
+    font-family: Arial;
+    font-size: 12px;
+    color: #002E5B;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+a.Grid_Link {
+    font-family: Arial;
+    font-size: 12px;
+    color: #006633;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+a.Grid_Link:hover {
+    font-family: Arial;
+    font-size: 12px;
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+/* From styles001.css */
+.border {
+    border-left: none;
+    border-right: none;
+}
+
+.a {
+    font-family: Verdana;
+    font-size: 12px;
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: bold;
+}
+
+.borderrig {
+    border-right: solid 1px #FFFF00;
+}
+
+.p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #002E5B;
+    font-size: 13px;
+}
+
+.headingprofil {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #990000;
+    text-align: center;
+}
+
+.radius {
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.select {
+    width: 100px;
+}
+
+.registration-form {
+  font-family: Arial, sans-serif;
+  background: #f0f4fa;
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+  border-radius: 8px;
+}
+
+.registration-form h2 {
+  color: #265371;
+  margin-bottom: 20px;
+}

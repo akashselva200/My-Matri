@@ -1,0 +1,1144 @@
+{
+  "users": [
+    {
+      "id": "F100001",
+      "registrationDate": "2023-01-05",
+      "personalDetails": {
+        "txtName": "Priya Patel",
+        "gender": "Female",
+        "dateOfBirth": "1995-08-15",
+        "timeOfBirth": {
+          "hour": "10",
+          "minute": "30",
+          "period": "AM"
+        },
+        "placeOfBirth": "Mumbai",
+        "nativity": "நாகப்பட்டினம் Settled @ சென்னை",
+        "motherTongue": "Tamil",
+        "maritalStatus": "Unmarried",
+        "fatherName": "Ramesh Patel",
+        "fatherAlive": "1",
+        "fatherJob": "Businessman",
+        "motherName": "Sita Patel",
+        "motherAlive": "1",
+        "motherJob": "Homemaker",
+        "AnyOtherDetails": "ஒரே மகள் , நாகபட்டினத்தில் சொந்த வீடு இரண்டு, விவசாய நிலம் என போதுமான வசதி உள்ளது",
+        "siblings": {
+          "married": {
+            "elderBrothers": "1",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          },
+          "unmarried": {
+            "elderBrothers": "0",
+            "youngerBrothers": "1",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          }
+        },
+        "otherDetails": "Looking for a suitable partner."
+      },
+      "physicalAttributes": {
+        "height": "5ft 4in - 162cm",
+        "weight": "55 kg",
+        "bloodGroup": "B+",
+        "diet": "Vegetarian",
+        "physicalStatus": "No",
+        "complexion": "Fair"
+      },
+      "educationOccupation": {
+        "qualification": "M.Sc. Computer Science",
+        "job": "Software Engineer",
+        "placeOfJob": "Pune",
+        "income": "12,00,000 PA"
+      },
+      "astrologyDetails": {
+        "religion": "Hindu",
+        "caste": "MUDALIYAR",
+        "subcaste": "Kadva Patel",
+        "star": "ROHINI",
+        "padam": "2",
+        "raasi": "RISHABAM",
+        "gothram": "Kashyap",
+        "horoscopeChart": {
+          "balance": {
+            "dasa": "Sun",
+            "years": "5",
+            "months": "3",
+            "days": "10"
+          },
+          "rasi": {
+            "txtHoro1": "குரு",
+            "txtHoro2": "சந்திரன் சனி",
+            "txtHoro3": "ketu",
+            "txtHoro4": "Raku",
+            "txtHoro5": "செவ்வாய்",
+            "txtHoro6": "ராகு சூரியன் புதன் சுக்கிரன்",
+            "txtHoro7": "Saturn",
+            "txtHoro8": "Mercury",
+            "txtHoro9": "ketu",
+            "txtHoro10": "லக்கனம்/",
+            "txtHoro11": "Venus",
+            "txtHoro12": "கேது"
+          },
+          "amsam": {
+            "txtAmsam1": "Venus",
+            "txtAmsam2": "சந்திரன் சனி",
+            "txtAmsam3": "Mars",
+            "txtAmsam4": "ராகு",
+            "txtAmsam5": "Moon",
+            "txtAmsam6": "Rahu",
+            "txtAmsam7": "புதன்",
+            "txtAmsam8": "Jupiter",
+            "txtAmsam9": "Saturn",
+            "txtAmsam10": "சுக்கிரன்",
+            "txtAmsam11": "Mercury",
+            "txtAmsam12": "Ketu"
+          }
+        }
+      },
+      "contactDetails": {
+        "permanentAddress": "123, Patel Nagar, Mumbai",
+        "presentAddress": "456, Tech Park, Pune",
+        "contactPerson": "திரு k.V.செல்வராஜ் , சென்னை",
+        "mobileNumber": "9442249475 / 88703 44791(whats app)",
+        "Email": "selvaraj@gmail.com"
+      },
+      "partnerExpectation": {
+        "qualification": "B.E. or equivalent",
+        "job": "Engineer/Doctor",
+        "jobRequired": "Must",
+        "income": "10,00,000+ PA",
+        "age": {
+          "from": "28",
+          "to": "32"
+        },
+        "diet": {
+          "vegetarian": false,
+          "nonVegetarian": true,
+          "eggetarian": false,
+          "any": false
+        },
+        "horoscopeRequired": "Yes",
+        "maritalStatus": {
+          "unmarried": true,
+          "married": false,
+          "widow": false,
+          "divorce": false,
+          "any": false
+        },
+        "caste": "mudaliyar",
+        "subcaste": "Any",
+        "AnyOtherExpectation": "Should be well-settled and from a good family."
+      },
+      "photos": {
+        "photo1": "/photos/F100001_1.jpg",
+        "photo2": "/photos/F100001_2.jpg"
+      },
+      "schemeDetails": {
+        "scheme": "Gold",
+        "username": "priya.patel@example.com",
+        "password": "password123",
+        "acceptTerms": true
+      }
+    },
+    {
+      "id": "M100001",
+      "registrationDate": "2023-01-04",
+      "personalDetails": {
+        "txtName": "Rajesh Sharma",
+        "gender": "Male",
+        "dateOfBirth": "1992-11-20",
+        "timeOfBirth": {
+          "hour": "08",
+          "minute": "00",
+          "period": "AM"
+        },
+        "placeOfBirth": "Delhi",
+        "nativity": "Indian",
+        "motherTongue": "Malayalam",
+        "maritalStatus": "Unmarried",
+        "fatherName": "Anil Sharma",
+        "fatherAlive": "Yes",
+        "fatherJob": "Government Service",
+        "motherName": "Poonam Sharma",
+        "motherAlive": "Yes",
+        "motherJob": "Teacher",
+        "AnyOtherDetails": "nothing",
+        "siblings": {
+          "married": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "1",
+            "youngerSisters": "0"
+          },
+          "unmarried": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          }
+        },
+        "otherDetails": "Simple and ambitious individual."
+      },
+      "physicalAttributes": {
+        "height": "5ft 10in - 177cm",
+        "weight": "75 kg",
+        "bloodGroup": "O+",
+        "diet": "Non-Vegetarian",
+        "physicalStatus": "No",
+        "complexion": "Wheatish"
+      },
+      "educationOccupation": {
+        "qualification": "B.Tech",
+        "job": "Mechanical Engineer",
+        "placeOfJob": "Gurgaon",
+        "income": "15,00,000 PA"
+      },
+      "astrologyDetails": {
+        "religion": "Hindu",
+        "caste": "Vanniya Kula Kshatriya",
+        "subcaste": "Gaur",
+        "star": "ASWINI",
+        "padam": "3",
+        "raasi": "MESHAM",
+        "gothram": "Vashishtha",
+        "horoscopeChart": {
+          "balance": {
+            "dasa": "Ketu",
+            "years": "2",
+            "months": "7",
+            "days": "15"
+          },
+          "rasi": {
+            "txtHoro1": "Sun",
+            "txtHoro2": "Mercury",
+            "txtHoro3": "Venus",
+            "txtHoro4": "",
+            "txtHoro5": "Rahu",
+            "txtHoro6": "",
+            "txtHoro7": "Moon",
+            "txtHoro8": "Mars",
+            "txtHoro9": "Jupiter",
+            "txtHoro10": "",
+            "txtHoro11": "Ketu",
+            "txtHoro12": "Saturn"
+          },
+          "amsam": {
+            "txtAmsam1": "Mars",
+            "txtAmsam2": "Venus",
+            "txtAmsam3": "",
+            "txtAmsam4": "Sun",
+            "txtAmsam5": "Mercury",
+            "txtAmsam6": "",
+            "txtAmsam7": "Rahu",
+            "txtAmsam8": "Moon",
+            "txtAmsam9": "",
+            "txtAmsam10": "Jupiter",
+            "txtAmsam11": "Saturn",
+            "txtAmsam12": "Ketu"
+          }
+        }
+      },
+      "contactDetails": {
+        "permanentAddress": "789, Sharma Villa, Delhi",
+        "presentAddress": "101, Corporate Greens, Gurgaon",
+        "contactPerson": "Anil Sharma",
+        "mobileNumber": "9123456789"
+      },
+      "partnerExpectation": {
+        "qualification": "Graduate",
+        "job": "Any",
+        "jobRequired": "Optional",
+        "income": "5,00,000+ PA",
+        "age": {
+          "from": "25",
+          "to": "30"
+        },
+        "diet": {
+          "vegetarian": false,
+          "nonVegetarian": false,
+          "eggetarian": false,
+          "any": true
+        },
+        "horoscopeRequired": "Yes",
+        "maritalStatus": {
+          "unmarried": true,
+          "married": false,
+          "widow": false,
+          "divorce": false,
+          "any": false
+        },
+        "caste": "Brahmin",
+        "subcaste": "Any",
+        "AnyOtherExpectation": "Looking for a compatible partner with modern and traditional values."
+      },
+      "photos": {
+        "photo1": "/photos/M100001_1.jpg",
+        "photo2": "/photos/M100001_2.jpg"
+      },
+      "schemeDetails": {
+        "scheme": "Silver",
+        "username": "rajesh.sharma@example.com",
+        "password": "password456",
+        "acceptTerms": true
+      }
+    },
+    {
+      "id": "F100002",
+      "registrationDate": "2023-02-10",
+      "personalDetails": {
+        "txtName": "Ananya Krishnan",
+        "gender": "Female",
+        "dateOfBirth": "1994-05-21",
+        "timeOfBirth": {
+          "hour": "06",
+          "minute": "45",
+          "period": "AM"
+        },
+        "placeOfBirth": "Chennai",
+        "nativity": "Chennai Native",
+        "motherTongue": "Tamil",
+        "maritalStatus": "Unmarried",
+        "fatherName": "Krishnan Iyengar",
+        "fatherAlive": "1",
+        "fatherJob": "Chartered Accountant",
+        "motherName": "Lakshmi Krishnan",
+        "motherAlive": "1",
+        "motherJob": "Teacher",
+        "AnyOtherDetails": "Only daughter, owns independent house in Chennai suburbs.",
+        "siblings": {
+          "married": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          },
+          "unmarried": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          }
+        },
+        "otherDetails": "Friendly nature and career-oriented."
+      },
+      "physicalAttributes": {
+        "height": "5ft 5in - 165cm",
+        "weight": "58 kg",
+        "bloodGroup": "A+",
+        "diet": "Vegetarian",
+        "physicalStatus": "No",
+        "complexion": "Wheatish"
+      },
+      "educationOccupation": {
+        "qualification": "MBA Finance",
+        "job": "Financial Analyst",
+        "placeOfJob": "Chennai",
+        "income": "11,50,000 PA"
+      },
+      "astrologyDetails": {
+        "religion": "Hindu",
+        "caste": "IYENGAR",
+        "subcaste": "Vadakalai",
+        "star": "POORAM",
+        "padam": "3",
+        "raasi": "Simham",
+        "gothram": "Bharadwaj",
+        "horoscopeChart": {
+          "balance": {
+            "dasa": "Venus",
+            "years": "8",
+            "months": "4",
+            "days": "12"
+          },
+          "rasi": {
+            "txtHoro1": "Jupiter",
+            "txtHoro2": "Moon",
+            "txtHoro3": "",
+            "txtHoro4": "",
+            "txtHoro5": "Mars",
+            "txtHoro6": "Mercury",
+            "txtHoro7": "",
+            "txtHoro8": "",
+            "txtHoro9": "Venus",
+            "txtHoro10": "",
+            "txtHoro11": "Saturn",
+            "txtHoro12": "Sun"
+          },
+          "amsam": {
+            "txtAmsam1": "Sun",
+            "txtAmsam2": "",
+            "txtAmsam3": "Venus",
+            "txtAmsam4": "",
+            "txtAmsam5": "Mercury",
+            "txtAmsam6": "",
+            "txtAmsam7": "Mars",
+            "txtAmsam8": "",
+            "txtAmsam9": "Moon",
+            "txtAmsam10": "Saturn",
+            "txtAmsam11": "Jupiter",
+            "txtAmsam12": "Ketu"
+          }
+        }
+      },
+      "contactDetails": {
+        "permanentAddress": "15, Lakshmi Street, Chennai",
+        "presentAddress": "Same as above",
+        "contactPerson": "Krishnan Iyengar",
+        "mobileNumber": "9840011223",
+        "Email": "ananya.krishnan@example.com"
+      },
+      "partnerExpectation": {
+        "qualification": "Postgraduate or above",
+        "job": "Finance/IT Professional",
+        "jobRequired": "Must",
+        "income": "12,00,000+ PA",
+        "age": {
+          "from": "29",
+          "to": "34"
+        },
+        "diet": {
+          "vegetarian": true,
+          "nonVegetarian": false,
+          "eggetarian": false,
+          "any": false
+        },
+        "horoscopeRequired": "Yes",
+        "maritalStatus": {
+          "unmarried": true,
+          "married": false,
+          "widow": false,
+          "divorce": false,
+          "any": false
+        },
+        "caste": "IYENGAR",
+        "subcaste": "Any",
+        "AnyOtherExpectation": "Well-educated and settled in metro city."
+      },
+      "photos": {
+        "photo1": "/photos/F100002_1.jpg",
+        "photo2": "/photos/F100002_2.jpg"
+      },
+      "schemeDetails": {
+        "scheme": "Gold",
+        "username": "ananya.krishnan@example.com",
+        "password": "password789",
+        "acceptTerms": true
+      }
+    },
+    {
+      "id": "M100002",
+      "registrationDate": "2023-03-12",
+      "personalDetails": {
+        "txtName": "Arjun Menon",
+        "gender": "Male",
+        "dateOfBirth": "1990-12-10",
+        "timeOfBirth": {
+          "hour": "09",
+          "minute": "15",
+          "period": "AM"
+        },
+        "placeOfBirth": "Kochi",
+        "nativity": "Kerala Native",
+        "motherTongue": "Malayalam",
+        "maritalStatus": "Unmarried",
+        "fatherName": "Raghavan Menon",
+        "fatherAlive": "Yes",
+        "fatherJob": "Retired Bank Manager",
+        "motherName": "Sujatha Menon",
+        "motherAlive": "Yes",
+        "motherJob": "Homemaker",
+        "AnyOtherDetails": "Owns property in Kochi city.",
+        "siblings": {
+          "married": {
+            "elderBrothers": "1",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          },
+          "unmarried": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          }
+        },
+        "otherDetails": "Travelling and sports enthusiast."
+      },
+      "physicalAttributes": {
+        "height": "5ft 11in - 180cm",
+        "weight": "80 kg",
+        "bloodGroup": "B+",
+        "diet": "Non-Vegetarian",
+        "physicalStatus": "No",
+        "complexion": "Fair"
+      },
+      "educationOccupation": {
+        "qualification": "M.Tech Mechanical Engineering",
+        "job": "Project Manager",
+        "placeOfJob": "Dubai",
+        "income": "36,00,000 PA"
+      },
+      "astrologyDetails": {
+        "religion": "Hindu",
+        "caste": "Nair",
+        "subcaste": "Menon",
+        "star": "UTHRADAM",
+        "padam": "4",
+        "raasi": "Dhanu",
+        "gothram": "Kashyap",
+        "horoscopeChart": {
+          "balance": {
+            "dasa": "Mars",
+            "years": "4",
+            "months": "1",
+            "days": "5"
+          },
+          "rasi": {
+            "txtHoro1": "Venus",
+            "txtHoro2": "Mercury",
+            "txtHoro3": "",
+            "txtHoro4": "Moon",
+            "txtHoro5": "Sun",
+            "txtHoro6": "",
+            "txtHoro7": "Rahu",
+            "txtHoro8": "Saturn",
+            "txtHoro9": "",
+            "txtHoro10": "",
+            "txtHoro11": "Ketu",
+            "txtHoro12": "Jupiter"
+          },
+          "amsam": {
+            "txtAmsam1": "Moon",
+            "txtAmsam2": "",
+            "txtAmsam3": "Sun",
+            "txtAmsam4": "Saturn",
+            "txtAmsam5": "Mercury",
+            "txtAmsam6": "",
+            "txtAmsam7": "Venus",
+            "txtAmsam8": "",
+            "txtAmsam9": "Rahu",
+            "txtAmsam10": "",
+            "txtAmsam11": "Ketu",
+            "txtAmsam12": "Mars"
+          }
+        }
+      },
+      "contactDetails": {
+        "permanentAddress": "25, MG Road, Kochi",
+        "presentAddress": "Dubai Marina, UAE",
+        "contactPerson": "Raghavan Menon",
+        "mobileNumber": "+971509876543",
+        "Email": "arjun.menon@example.com"
+      },
+      "partnerExpectation": {
+        "qualification": "Graduate or Postgraduate",
+        "job": "Any Professional",
+        "jobRequired": "Optional",
+        "income": "8,00,000+ PA",
+        "age": {
+          "from": "26",
+          "to": "31"
+        },
+        "diet": {
+          "vegetarian": false,
+          "nonVegetarian": true,
+          "eggetarian": false,
+          "any": false
+        },
+        "horoscopeRequired": "Yes",
+        "maritalStatus": {
+          "unmarried": true,
+          "married": false,
+          "widow": false,
+          "divorce": false,
+          "any": false
+        },
+        "caste": "Any",
+        "subcaste": "Any",
+        "AnyOtherExpectation": "Open-minded, willing to relocate to Dubai."
+      },
+      "photos": {
+        "photo1": "/photos/M100002_1.jpg",
+        "photo2": "/photos/M100002_2.jpg"
+      },
+      "schemeDetails": {
+        "scheme": "Platinum",
+        "username": "arjun.menon@example.com",
+        "password": "securepass123",
+        "acceptTerms": true
+      }
+    },
+    {
+      "id": "F100003",
+      "registrationDate": "2023-04-08",
+      "personalDetails": {
+        "txtName": "Meera Joshi",
+        "gender": "Female",
+        "dateOfBirth": "1996-01-18",
+        "timeOfBirth": {
+          "hour": "05",
+          "minute": "20",
+          "period": "PM"
+        },
+        "placeOfBirth": "Pune",
+        "nativity": "Maharashtra Native",
+        "motherTongue": "Marathi",
+        "maritalStatus": "Unmarried",
+        "fatherName": "Santosh Joshi",
+        "fatherAlive": "Yes",
+        "fatherJob": "IT Consultant",
+        "motherName": "Sunita Joshi",
+        "motherAlive": "Yes",
+        "motherJob": "Lecturer",
+        "AnyOtherDetails": "Family owns two flats in Pune.",
+        "siblings": {
+          "married": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "1",
+            "youngerSisters": "0"
+          },
+          "unmarried": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          }
+        },
+        "otherDetails": "Loves reading and trekking."
+      },
+      "physicalAttributes": {
+        "height": "5ft 3in - 160cm",
+        "weight": "54 kg",
+        "bloodGroup": "O+",
+        "diet": "Eggetarian",
+        "physicalStatus": "No",
+        "complexion": "Fair"
+      },
+      "educationOccupation": {
+        "qualification": "B.Arch",
+        "job": "Architect",
+        "placeOfJob": "Mumbai",
+        "income": "9,00,000 PA"
+      },
+      "astrologyDetails": {
+        "religion": "Hindu",
+        "caste": "CKP",
+        "subcaste": "Any",
+        "star": "ANURADHA",
+        "padam": "1",
+        "raasi": "Vrischika",
+        "gothram": "Kaurava",
+        "horoscopeChart": {
+          "balance": {
+            "dasa": "Saturn",
+            "years": "5",
+            "months": "0",
+            "days": "9"
+          },
+          "rasi": {
+            "txtHoro1": "Sun",
+            "txtHoro2": "Moon",
+            "txtHoro3": "Mars",
+            "txtHoro4": "",
+            "txtHoro5": "",
+            "txtHoro6": "Mercury",
+            "txtHoro7": "",
+            "txtHoro8": "Venus",
+            "txtHoro9": "Saturn",
+            "txtHoro10": "",
+            "txtHoro11": "Ketu",
+            "txtHoro12": "Rahu"
+          },
+          "amsam": {
+            "txtAmsam1": "Mars",
+            "txtAmsam2": "",
+            "txtAmsam3": "Mercury",
+            "txtAmsam4": "Sun",
+            "txtAmsam5": "",
+            "txtAmsam6": "Saturn",
+            "txtAmsam7": "Moon",
+            "txtAmsam8": "",
+            "txtAmsam9": "Venus",
+            "txtAmsam10": "Ketu",
+            "txtAmsam11": "Rahu",
+            "txtAmsam12": ""
+          }
+        }
+      },
+      "contactDetails": {
+        "permanentAddress": "12, FC Road, Pune",
+        "presentAddress": "Andheri West, Mumbai",
+        "contactPerson": "Sunita Joshi",
+        "mobileNumber": "9876543210",
+        "Email": "meera.joshi@example.com"
+      },
+      "partnerExpectation": {
+        "qualification": "B.Arch/B.E./MBA",
+        "job": "Architect/Engineer",
+        "jobRequired": "Must",
+        "income": "10,00,000+ PA",
+        "age": {
+          "from": "27",
+          "to": "32"
+        },
+        "diet": {
+          "vegetarian": false,
+          "nonVegetarian": false,
+          "eggetarian": true,
+          "any": false
+        },
+        "horoscopeRequired": "Optional",
+        "maritalStatus": {
+          "unmarried": true,
+          "married": false,
+          "widow": false,
+          "divorce": false,
+          "any": false
+        },
+        "caste": "Any",
+        "subcaste": "Any",
+        "AnyOtherExpectation": "Should be creative and career-driven."
+      },
+      "photos": {
+        "photo1": "/photos/F100003_1.jpg",
+        "photo2": "/photos/F100003_2.jpg"
+      },
+      "schemeDetails": {
+        "scheme": "Silver",
+        "username": "meera.joshi@example.com",
+        "password": "meerapass",
+        "acceptTerms": true
+      }
+    },
+    {
+      "id": "M100003",
+      "registrationDate": "2023-05-02",
+      "personalDetails": {
+        "txtName": "Sourav Banerjee",
+        "gender": "Male",
+        "dateOfBirth": "1993-09-05",
+        "timeOfBirth": {
+          "hour": "11",
+          "minute": "50",
+          "period": "AM"
+        },
+        "placeOfBirth": "Kolkata",
+        "nativity": "West Bengal Native",
+        "motherTongue": "Bengali",
+        "maritalStatus": "Unmarried",
+        "fatherName": "Debashis Banerjee",
+        "fatherAlive": "Yes",
+        "fatherJob": "Lawyer",
+        "motherName": "Madhumita Banerjee",
+        "motherAlive": "Yes",
+        "motherJob": "Bank Officer",
+        "AnyOtherDetails": "Modern yet rooted family values.",
+        "siblings": {
+          "married": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "1"
+          },
+          "unmarried": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          }
+        },
+        "otherDetails": "Passionate musician and IT professional."
+      },
+      "physicalAttributes": {
+        "height": "5ft 9in - 175cm",
+        "weight": "72 kg",
+        "bloodGroup": "A-",
+        "diet": "Vegetarian",
+        "physicalStatus": "No",
+        "complexion": "Wheatish"
+      },
+      "educationOccupation": {
+        "qualification": "B.Tech CSE",
+        "job": "Software Architect",
+        "placeOfJob": "Bangalore",
+        "income": "20,00,000 PA"
+      },
+      "astrologyDetails": {
+        "religion": "Hindu",
+        "caste": "Brahmin",
+        "subcaste": "Rarhi",
+        "star": "MAGHA",
+        "padam": "2",
+        "raasi": "Simha",
+        "gothram": "Kashyap",
+        "horoscopeChart": {
+          "balance": {
+            "dasa": "Mercury",
+            "years": "6",
+            "months": "2",
+            "days": "3"
+          },
+          "rasi": {
+            "txtHoro1": "Moon",
+            "txtHoro2": "",
+            "txtHoro3": "Venus",
+            "txtHoro4": "",
+            "txtHoro5": "Sun",
+            "txtHoro6": "Saturn",
+            "txtHoro7": "",
+            "txtHoro8": "Mars",
+            "txtHoro9": "",
+            "txtHoro10": "Mercury",
+            "txtHoro11": "Ketu",
+            "txtHoro12": "Rahu"
+          },
+          "amsam": {
+            "txtAmsam1": "Rahu",
+            "txtAmsam2": "Sun",
+            "txtAmsam3": "Saturn",
+            "txtAmsam4": "",
+            "txtAmsam5": "Venus",
+            "txtAmsam6": "",
+            "txtAmsam7": "Moon",
+            "txtAmsam8": "",
+            "txtAmsam9": "Mercury",
+            "txtAmsam10": "Ketu",
+            "txtAmsam11": "Mars",
+            "txtAmsam12": ""
+          }
+        }
+      },
+      "contactDetails": {
+        "permanentAddress": "33A, Lake Gardens, Kolkata",
+        "presentAddress": "Indiranagar, Bangalore",
+        "contactPerson": "Debashis Banerjee",
+        "mobileNumber": "9001234567",
+        "Email": "sourav.banerjee@example.com"
+      },
+      "partnerExpectation": {
+        "qualification": "Graduate or Postgraduate",
+        "job": "Any",
+        "jobRequired": "Optional",
+        "income": "6,00,000+ PA",
+        "age": {
+          "from": "26",
+          "to": "30"
+        },
+        "diet": {
+          "vegetarian": true,
+          "nonVegetarian": false,
+          "eggetarian": false,
+          "any": false
+        },
+        "horoscopeRequired": "Optional",
+        "maritalStatus": {
+          "unmarried": true,
+          "married": false,
+          "widow": false,
+          "divorce": false,
+          "any": false
+        },
+        "caste": "Any",
+        "subcaste": "Any",
+        "AnyOtherExpectation": "Loves art, open to cultural pursuits."
+      },
+      "photos": {
+        "photo1": "/photos/M100003_1.jpg",
+        "photo2": "/photos/M100003_2.jpg"
+      },
+      "schemeDetails": {
+        "scheme": "Gold",
+        "username": "sourav.banerjee@example.com",
+        "password": "kolkata123",
+        "acceptTerms": true
+      }
+    },
+    {
+      "id": "M100004",
+      "personalDetails": {
+        "txtName": "Akash S",
+        "gender": "Male",
+        "dateOfBirth": "2025-08-04",
+        "timeOfBirth": {
+          "hour": "",
+          "minute": "",
+          "period": ""
+        },
+        "placeOfBirth": "",
+        "nativity": "",
+        "motherTongue": "",
+        "maritalStatus": "Unmarried",
+        "fatherName": "",
+        "fatherAlive": "1",
+        "fatherJob": "",
+        "motherName": "",
+        "motherAlive": "1",
+        "motherJob": "",
+        "AnyOtherDetails": "",
+        "siblings": {
+          "married": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          },
+          "unmarried": {
+            "elderBrothers": "0",
+            "youngerBrothers": "0",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          }
+        }
+      },
+      "physicalAttributes": {
+        "height": "",
+        "weight": "",
+        "bloodGroup": "",
+        "diet": "",
+        "physicalStatus": "No",
+        "complexion": ""
+      },
+      "educationOccupation": {
+        "qualification": "",
+        "job": "",
+        "placeOfJob": "",
+        "income": ""
+      },
+      "astrologyDetails": {
+        "religion": "",
+        "caste": "",
+        "subcaste": "",
+        "star": "",
+        "padam": "",
+        "raasi": "",
+        "gothram": "",
+        "horoscopeChart": {
+          "balance": {
+            "dasa": "",
+            "years": "",
+            "months": "",
+            "days": ""
+          },
+          "rasi": {
+            "txtHoro1": "",
+            "txtHoro2": "",
+            "txtHoro3": "",
+            "txtHoro4": "",
+            "txtHoro5": "",
+            "txtHoro6": "",
+            "txtHoro7": "",
+            "txtHoro8": "",
+            "txtHoro9": "",
+            "txtHoro10": "",
+            "txtHoro11": "",
+            "txtHoro12": ""
+          },
+          "amsam": {
+            "txtAmsam1": "",
+            "txtAmsam2": "",
+            "txtAmsam3": "",
+            "txtAmsam4": "",
+            "txtAmsam5": "",
+            "txtAmsam6": "",
+            "txtAmsam7": "",
+            "txtAmsam8": "",
+            "txtAmsam9": "",
+            "txtAmsam10": "",
+            "txtAmsam11": "",
+            "txtAmsam12": ""
+          }
+        }
+      },
+      "contactDetails": {
+        "permanentAddress": "hjg",
+        "presentAddress": "gj",
+        "contactPerson": "",
+        "mobileNumber": "",
+        "Email": ""
+      },
+      "partnerExpectation": {
+        "qualification": "",
+        "job": "",
+        "jobRequired": "",
+        "income": "",
+        "age": {
+          "from": "",
+          "to": ""
+        },
+        "diet": {
+          "vegetarian": false,
+          "nonVegetarian": false,
+          "eggetarian": false,
+          "any": false
+        },
+        "horoscopeRequired": "",
+        "maritalStatus": {
+          "unmarried": false,
+          "married": false,
+          "widow": false,
+          "divorce": false,
+          "any": false
+        },
+        "caste": "",
+        "subcaste": "",
+        "anyOtherExpectation": ""
+      },
+      "photos": {
+        "photo1": "/photos/M100004_1.jpg",
+        "photo2": "/photos/M100004_2.jpg"
+      },
+      "schemeDetails": {
+        "scheme": "",
+        "username": "tststrs@gmail.com",
+        "password": "gsgedsef",
+        "acceptTerms": true
+      }
+    },
+    {
+      "id": "F100004",
+      "personalDetails": {
+        "txtName": "harini",
+        "gender": "Female",
+        "dateOfBirth": "2025-08-05",
+        "timeOfBirth": {
+          "hour": "2",
+          "minute": "9",
+          "period": "PM"
+        },
+        "placeOfBirth": "cudalure",
+        "nativity": "cuddalore",
+        "motherTongue": "Tamil",
+        "maritalStatus": "Unmarried",
+        "fatherName": "c",
+        "fatherAlive": "1",
+        "fatherJob": "",
+        "motherName": "Alli",
+        "motherAlive": "1",
+        "motherJob": "",
+        "AnyOtherDetails": "wd",
+        "siblings": {
+          "married": {
+            "elderBrothers": "2",
+            "youngerBrothers": "2",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          },
+          "unmarried": {
+            "elderBrothers": "3",
+            "youngerBrothers": "2",
+            "elderSisters": "0",
+            "youngerSisters": "0"
+          }
+        }
+      },
+      "physicalAttributes": {
+        "height": "5ft 2in - 157cm",
+        "weight": "56",
+        "bloodGroup": "A-",
+        "diet": "NonVeg",
+        "physicalStatus": "No",
+        "complexion": "VeryFair"
+      },
+      "educationOccupation": {
+        "qualification": "B.Tech",
+        "job": "IT company",
+        "placeOfJob": "Chennai",
+        "income": "30000"
+      },
+      "astrologyDetails": {
+        "religion": "Hindu",
+        "caste": "Mudaliyar",
+        "subcaste": "Sengunthar",
+        "star": "POOSAM",
+        "padam": "2",
+        "raasi": "MAGARAM",
+        "gothram": "shiva",
+        "horoscopeChart": {
+          "balance": {
+            "dasa": "cffhd",
+            "years": "3",
+            "months": "5",
+            "days": "14"
+          },
+          "rasi": {
+            "txtHoro1": "sdc",
+            "txtHoro2": "",
+            "txtHoro3": "",
+            "txtHoro4": "dsc",
+            "txtHoro5": "",
+            "txtHoro6": "",
+            "txtHoro7": "sfdx",
+            "txtHoro8": "",
+            "txtHoro9": "",
+            "txtHoro10": "sdfsd",
+            "txtHoro11": "",
+            "txtHoro12": ""
+          },
+          "amsam": {
+            "txtAmsam1": "hnf",
+            "txtAmsam2": "",
+            "txtAmsam3": "",
+            "txtAmsam4": "fnd",
+            "txtAmsam5": "",
+            "txtAmsam6": "",
+            "txtAmsam7": "dfg",
+            "txtAmsam8": "",
+            "txtAmsam9": "",
+            "txtAmsam10": "jhm",
+            "txtAmsam11": "",
+            "txtAmsam12": ""
+          }
+        }
+      },
+      "contactDetails": {
+        "permanentAddress": "sdc",
+        "presentAddress": "dscds",
+        "contactPerson": "ram",
+        "mobileNumber": "980756376",
+        "Email": ""
+      },
+      "partnerExpectation": {
+        "qualification": "b.tech",
+        "job": "rdg",
+        "jobRequired": "",
+        "income": "168980",
+        "age": {
+          "from": "",
+          "to": ""
+        },
+        "diet": {
+          "vegetarian": false,
+          "nonVegetarian": false,
+          "eggetarian": false,
+          "any": false
+        },
+        "horoscopeRequired": "",
+        "maritalStatus": {
+          "unmarried": false,
+          "married": false,
+          "widow": false,
+          "divorce": false,
+          "any": false
+        },
+        "caste": "",
+        "subcaste": "SENGUNTHAR / KAIKOLAR",
+        "anyOtherExpectation": "gfhyk"
+      },
+      "schemeDetails": {
+        "scheme": "",
+        "username": "dsfsdf@gmail.com",
+        "password": "12345678",
+        "acceptTerms": true
+      },
+      "photos": {
+        "photo1": "/photos/F100004_1.jpg",
+        "photo2": "/photos/F100004_2.jpg"
+      }
+    
+    }
+  ]
+}

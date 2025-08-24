@@ -1,0 +1,31 @@
+.photo-flip-container {
+  position: relative;
+  width: 227px;
+  height: auto;
+  perspective: 800px; /* depth for 3D effect */
+}
+
+.photo-image {
+  backface-visibility: hidden;
+  transition: transform 1.2s ease-in-out, opacity 1.2s ease-in-out;
+  position: relative;
+  display: block;
+}
+
+/* When image is entering (visible) */
+.flip-in {
+  transform: rotateY(0deg);
+  opacity: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* When image is exiting (hidden) */
+.flip-out {
+  transform: rotateY(90deg);
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
