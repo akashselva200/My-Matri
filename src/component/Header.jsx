@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import '../css/styles001.css';
+
 const Header = () => {
   return (
    <header>
@@ -10,20 +12,15 @@ const Header = () => {
       </marquee>
       
         {/* Logo and Whatsapp */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            maxWidth: 1100,
-            margin: '3px auto 0 auto',
-            padding: '1px 1px 1px 60px',
-            transform: 'scale(1.05)'
-          }}
-        >
-          <img src="/img/sornam-logo.png" width="590" className="radius" alt="Sornam Logo" />
-          <img src="/img/sornam-Whatsappno.png" width="360" className="radius" alt="Whatsapp" />
+        <div className="header-top">
+        <div className="sornam-logo">
+          <img src="/img/sornam-logo.png" className="radius" alt="Sornam Logo" />
+          </div>
+          <div className="whatsapp-img">
+            <img src="/img/sornam-Whatsappno.png" className="radius" alt="Whatsapp" />
+          </div>
         </div>
+        
 
         {/* Navigation Bar */}
         <nav style={{ width: 1200, margin: '10px auto', fontWeight: 'bold', fontSize: '16px'}}>
@@ -33,7 +30,8 @@ const Header = () => {
             <li><Link className="mainlink" to="/registration" style={{ color: 'white', textDecoration: 'none', padding: '10px 20px', display: 'inline-block' }}>Registration</Link> </li>
             <li><Link className="mainlink" to="/download-form" style={{ color: 'white', textDecoration: 'none', padding: '10px 20px', display: 'inline-block' }}>Download Form</Link></li>
             <li><Link className="mainlink" to="/login" style={{ color: 'white', textDecoration: 'none', padding: '10px 20px', display: 'inline-block' }}>Login</Link></li>
-            <li><Link className="mainlink" to="/services" style={{ color: 'white', textDecoration: 'none', padding: '10px 20px', display: 'inline-block' }}>Services</Link></li>  
+            
+            <li><Link className="mainlink" to="/MyProfile" style={{ color: 'white', textDecoration: 'none', padding: '10px 20px', display: 'inline-block' }}>My Profile</Link></li> 
             <li><Link className="mainlink" to="/schemes" style={{ color: 'white', textDecoration: 'none', padding: '10px 20px', display: 'inline-block' }}>Schemes & Features</Link></li>
             <li><Link className="mainlink" to="/payment-options" style={{ color: 'white', textDecoration: 'none', padding: '10px 20px', display: 'inline-block' }}>Payment Options</Link></li>
             <li><Link className="mainlink" to="/contact-us" style={{ color: 'white', textDecoration: 'none', padding: '10px 20px', display: 'inline-block' }}>Contact Us</Link></li>

@@ -1,44 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Make sure you have 'react-router-dom' installed
+import React, { useEffect, useState } from "react";
+import { useParams } from 'react-router-dom';
 import '../css/ProfileFullView.css';
-import ProfileFullViewphoto  from './ProfileFullViewphoto';
+import ProfileFullViewphoto from './ProfileFullViewphoto';
 import Header from './Header';
 
-const ProfileFullView = () => {
-  const { id } = useParams(); // Gets the ID from the URL, e.g., /profile/1
+// Helper for safe access
+const get = (profile, key, fallback = "") =>
+  profile && profile[key] ? profile[key] : fallback;
+
+const MyProfile = () => {
+  // keep useParams in case you later use /MyProfile/:id route, but we'll prefer localStorage
+  const { id: paramId } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!id) {
-        setLoading(false);
-        setError("No profile ID provided.");
-        return;
-      }
       try {
-        // The error "not valid JSON" happens when the API returns HTML (like an error page)
-        // instead of JSON. This was caused by fetching from the wrong port (3000) and endpoint.
-        // The code below fetches the specific user from the correct json-server endpoint.
-        const response = await fetch(`http://localhost:3001/users/${id}`);
+        setLoading(true);
 
-        if (!response.ok) {
-          throw new Error(`Could not fetch user data (status: ${response.status})`);
+        // Resolve user id priority:
+        // 1) route param (if present)
+        // 2) localStorage.loggedUserId (set by LoginPage)
+        // 3) development fallback
+        let userId = (paramId || localStorage.getItem('loggedUserId') || '').trim();
+        if (!userId) {
+          userId = 'F100001'; // temporary dev fallback
         }
-        
-        const userData = await response.json(); // This will now correctly parse the JSON
-        setUser(userData);
 
+        const response = await fetch(`http://localhost:3001/users?id=${encodeURIComponent(userId)}`);
+        if (!response.ok) throw new Error(`Could not fetch user data (status: ${response.status})`);
+        const data = await response.json();
+        const userData = Array.isArray(data) ? data[0] : data;
+
+        if (!userData) {
+          throw new Error("Profile not found");
+        }
+
+        setUser(userData);
+        setError(null);
       } catch (err) {
-        setError(err.message);
+        console.error("Fetch error:", err);
+        setError(err.message || "Failed to fetch profile");
+        setUser(null);
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [id]);
+  }, [paramId]); // re-run if route param changes
 
   if (loading) return <div>Loading Profile...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -50,20 +62,18 @@ const ProfileFullView = () => {
     const photo2Path = user?.photos?.photo2 || `/photos/${user.id}_2.jpg`;
     const defaultPhoto = '/photos/default.jpg';
 
-    
-
     return (
       <div style={{ marginTop: '10px' }}>
         <img
           src={photo1Path}
           alt={`${user.personalDetails.txtName}'s photo 1`}
-          onError={(e) => { e.target.onerror = null; e.target.src = defaultPhoto; }}
+          onError={e => (e.target.src = '/photos/default.jpg')}
           style={{ width: '100%', maxWidth: '227px', border: '1px solid #3A2BDF', marginBottom: '10px', objectFit: 'cover', height: 'auto' }}
         />
         <img
           src={photo2Path}
           alt={`${user.personalDetails.txtName}'s photo 2`}
-          onError={(e) => { e.target.onerror = null; e.target.src = defaultPhoto; }}
+          onError={e => (e.target.src = '/photos/default.jpg')}
           style={{ width: '100%', maxWidth: '227px', border: '1px solid #3A2BDF', objectFit: 'cover', height: 'auto' }}
         />
       </div>
@@ -71,288 +81,389 @@ const ProfileFullView = () => {
   };
 
 
-  const getParentsAliveStatus = () => {
-    const isFatherAlive = user.personalDetails.fatherAlive === '1' || user.personalDetails.fatherAlive === 'Yes';
-    const isMotherAlive = user.personalDetails.motherAlive === '1' || user.personalDetails.motherAlive === 'Yes';
+const getParentsAliveStatus = () => {
+  const isFatherAlive = user.personalDetails.fatherAlive === '1' || user.personalDetails.fatherAlive === 'Yes';
+  const isMotherAlive = user.personalDetails.motherAlive === '1' || user.personalDetails.motherAlive === 'Yes';
 
-    if (isFatherAlive && isMotherAlive) {
-      return `Both Alive - அப்பா: ${user.personalDetails.fatherJob} - அம்மா: ${user.personalDetails.motherJob}`;
-    } else if (isFatherAlive) {
-      return `Only Father Alive - அப்பா: ${user.personalDetails.fatherJob}`;
-    } else if (isMotherAlive) {
-      return `Only Mother Alive - அம்மா: ${user.personalDetails.motherJob}`;
-    }
-    return "Parents Not Alive";
-  };
-
-
+  if (isFatherAlive && isMotherAlive) {
+    return `Both Alive - அப்பா: ${user.personalDetails.fatherJob} - அம்மா: ${user.personalDetails.motherJob}`;
+  } else if (isFatherAlive) {
+    return `Only Father Alive - அப்பா: ${user.personalDetails.fatherJob}`;
+  } else if (isMotherAlive) {
+    return `Only Mother Alive - அம்மா: ${user.personalDetails.motherJob}`;
+  }
+  return "Parents Not Alive";
+};
 
 
-  const getDietStatus = (diet) => {
-  // Null/undefined fallback
-  if (!diet) return "Doesn't Matter";
-  if (diet.any) return "Doesn't Matter";
 
-  // Build an array of allowed diets (not 'any')
-  const allowed = Object.entries(diet)
-    .filter(([key, val]) => key !== "any" && val)
-    .map(([key]) => {
-      if (key === "nonVegetarian") return "Non-Vegetarian";
-      return key.charAt(0).toUpperCase() + key.slice(1);
-    });
+const getDietStatus = (diet) => {
+if (!diet) return "Doesn't Matter";
+if (diet.any) return "Doesn't Matter";
 
-  return allowed.length ? allowed.join(', ') : "Doesn't Matter";
+// Build an array of allowed diets (not 'any')
+const allowed = Object.entries(diet)
+  .filter(([key, val]) => key !== "any" && val)
+  .map(([key]) => {
+    if (key === "nonVegetarian") return "Non-Vegetarian";
+    return key.charAt(0).toUpperCase() + key.slice(1);
+  });
+
+return allowed.length ? allowed.join(', ') : "Doesn't Matter";
 };
 
 
 
 const getMaritalStatusLabel = (ms) => {
-  if (!ms) return "Doesn't Matter";
-  if (ms.any) return "Doesn't Matter";
-  
-  const labels = {
-    unmarried: "UnMarried",
-    married: "Married",
-    widow: "Widow",
-    divorce: "Divorce"
-  };
-
-  const active = Object.entries(ms)
-    .filter(([key, val]) => key !== "any" && val)
-    .map(([key]) => labels[key] || (key.charAt(0).toUpperCase() + key.slice(1)));
-
-  return active.length ? active.join(', ') : "Doesn't Matter";
+if (!ms) return "Doesn't Matter";
+if (ms.any) return "Doesn't Matter";
+ 
+const labels = {
+  unmarried: "UnMarried",
+  married: "Married",
+  widow: "Widow",
+  divorce: "Divorce"
 };
 
+const active = Object.entries(ms)
+  .filter(([key, val]) => key !== "any" && val)
+  .map(([key]) => labels[key] || (key.charAt(0).toUpperCase() + key.slice(1)));
 
-function withBreakAfterNWords(text, n = 7) {
-  if (!text) return null;
-  const words = String(text).trim().split(/\s+/); // split on any whitespace
-  return words.map((w, i) => (
-    <React.Fragment key={i}>
-      {w}
-      {i === words.length - 1 ? '' : i === n - 1 ? <br /> : ' '}
-    </React.Fragment>
-  ));
-}
-
-function breakAfterNWords(text, n = 7) {
-  const words = String(text ?? '').trim().split(/\s+/);
-  return words.map((w, i) => (
-    <React.Fragment key={i}>
-      {w}
-      {i < words.length - 1 && (i === n - 1 ? <br /> : ' ')}
-    </React.Fragment>
-  ));
-}
-
-// Build combined line: "Qualification - Job - Place"
-const line = [
-  user?.educationOccupation?.qualification,
-  user?.educationOccupation?.job,
-  user?.educationOccupation?.placeOfJob,
-].filter(Boolean).join(' - ');
-
+return active.length ? active.join(', ') : "Doesn't Matter";
+};
 
 
   return (
     <div>
-      {/* The form and hidden inputs are removed as they are not needed for a client-side React app */}
-      <Header/>
-      <div>
-          <table border="0" cellPadding="0" cellSpacing="0" width="976px" align="center">
+      <Header />
+      <div style={{ padding: '6px' }}>
+        
+
+        
+        <table border="0" cellPadding="0" cellSpacing="0" width="976px" align="center">
+          <tbody>
+            <tr>
+              <td>
+                <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                  <tbody>
+                    <tr>
+                      <td className="Label" style={{ fontWeight: '500', textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }}>
+                        <table style={{ border: "0", borderSpacing: "0", width: "100%" }}>
+                           <tbody>
+                           <tr style={{ height: "5px" }}>
+                    </tr>
+                    <tr>
+                      <td className="style1" style={{ textAlign: "left" }}>
+                      <span
+                      style={{
+                      fontSize: "25px",
+                      color: "#69AF00",
+                      fontFamily: "Georgia",
+                      fontWeight: "bold",
+                      padding: "0px", // removed padding
+                     }} >
+                    <i>My Profile</i>
+                    </span>
+                  </td>
+                 </tr>
+              </tbody>
+              </table>
+
+                      </td>
+                    </tr>
+                    <tr style={{ height: '5px' }}>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                          <tbody>
+                            <tr>
+                              <td align="left">
+                                <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                                  <tbody>
+                                    <tr>
+                                      <td style={{ backgroundColor: '#FFFFD7', border: '1px solid #D7E1FF' }}>
+                                        <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                                          <tbody>
+      <tr>
+        <td style={{ backgroundColor: "#FFFFD7", border: "1px solid #D7E1FF" }}>
+          <table style={{ border: "0", borderSpacing: "0", width: "100%" }}>
             <tbody>
               <tr>
-                <td>
-                  <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-                    <tbody>
-                      <tr>
-                        <td className="Label" style={{ fontWeight: '500', textAlign: 'center', fontSize: '16px', fontWeight: 'bold' }}>
-                          <span style={{ color: 'Maroon' }}>
-                            சொர்ணம் திருமண தகவல் மையம்,
-                            107A. Anbunagar, Achariyapuram, Pondy -605110
-                            Call : 8056484897
-                          </span>
-                        </td>
-                      </tr>
-                      <tr style={{ height: '7px' }}>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-                            <tbody>
-                              <tr>
-                                <td align="left">
-                                  <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-                                    <tbody>
-                                      <tr>
-                                        <td style={{ backgroundColor: '#FFFFD7', border: '1px solid #D7E1FF' }}>
-                                          <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-                                            <tbody>
-                                              <tr>
-                                                <td className="head" style={{ width: '140px' }} align="left">
-                                                  <b style={{ color: 'Red' }}>Reg. No. :</b>
-                                                  <b style={{ fontWeight: 'normal' }}>
-                                                    <span id="Reg_No" className="Label" style={{ textTransform: 'capitalize' }}>{user.id}</span>
-                                                  </b>
-                                                </td>
-                                                <td className="head" align="left">
-                                                  <b style={{ color: 'Red' }}>Name :</b>
-                                                  <b style={{ fontWeight: 'normal' }}>
-                                                    <span id="Name" className="Label" style={{ textTransform: 'capitalize' }}>{user.personalDetails.txtName},</span>
-                                                    <span id="educationOccupation.qualification" className="Label" style={{ textTransform: 'capitalize' }}>{user.educationOccupation.qualification}</span>
-                                                  </b>
-                                                </td>
-                                                <td className="head" style={{ width: '200px' }} align="left">
-                                                  <b style={{ color: 'Red' }}>Reg. Month. :</b>
-                                                  <b style={{ fontWeight: 'normal' }}>
-                                                    <span id="Reg_Month" className="Label" style={{ textTransform: 'capitalize' }}>{user.schemeDetails.scheme} Member</span>
-                                                  </b>
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <td valign="top">
-                                          <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-                                            <tbody>
-                                              <tr>
-                                                <td style={{ border: '2px solid #D7E1FF' }}>
-                                                  <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-                                                    <tbody>
-                                                      <tr>
-                                                        <td valign="top">
-                                                          <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-                                                            <tbody>
-                                                              <tr>
-                                                                <td className="Label" style={{ fontWeight: 'bold', color: 'Green', backgroundColor: '#D7E1FF', textAlign: 'left', fontSize: '14px' }}>
-                                                                  Bio Data
-                                                                </td>
-                                                              </tr>
-                                                              <tr>
-                                                                <td style={{ borderBottom: '1px solid #D7E1FF', borderRight: '1px solid #D7E1FF' }}>
-                                                                  <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-                                                                    <tbody>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Gender-Marital Status</b>
-                                                                        </td>
-                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span id="gender" className="Label" style={{ whiteSpace: 'normal'}}>{user.personalDetails.gender}</span>
-                                                                          <span id="MaritalStatus" className="Label" style={{ textTransform: 'capitalize' }}>, {user.personalDetails.maritalStatus}</span>
-                                                                        </td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>DOB-Time-Place</b>
-                                                                        </td>
-                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span id="DOB" className="Label" style={{ textTransform: 'capitalize' }}>{user.personalDetails.dateOfBirth}</span>
-                                                                          <span id="Time" className="Label" style={{ textTransform: 'capitalize',  display: 'inline-block', maxWidth: '150px',verticalAlign: 'top' }}> - {user.personalDetails.timeOfBirth.hour}:{user.personalDetails.timeOfBirth.minute} {user.personalDetails.timeOfBirth.period}</span>
-                                                                          <span id="Place" className="Label" style={{ textTransform: 'capitalize' }}> - {user.personalDetails.placeOfBirth}</span>
-                                                                        </td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Religion-Caste-Sub caste</b>
-                                                                        </td>
-                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span id="Religion" className="Label" style={{ textTransform: 'capitalize' }}>{user.astrologyDetails.religion}</span>
-                                                                          <span id="Caste" className="Label" style={{ textTransform: 'capitalize' }}> - {user.astrologyDetails.caste}</span>
-                                                                          <span id="Subcaste" className="Label" style={{ textTransform: 'capitalize' }}> - {user.astrologyDetails.subcaste}</span>
-                                                                        </td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Gothram-Star-Rasi</b>
-                                                                        </td>
-                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span id="Gothram" className="Label" style={{ textTransform: 'capitalize' }}>{user.astrologyDetails.gothram}</span>
-                                                                          <span id="Star" className="Label" style={{ textTransform: 'capitalize' }}> - {user.astrologyDetails.star}</span>
-                                                                          <span id="Rasi" className="Label" style={{ textTransform: 'capitalize' }}> - {user.astrologyDetails.raasi}</span>
-                                                                        </td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '190px',verticalAlign: 'top'  }}>Qualification-Job-Place of Job</b>
-                                                                        </td>
-                                                                       <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                              <span className="Label" style={{ textTransform: 'capitalize' }}>
-                                                                              {breakAfterNWords(line, 7)}
-                                                                              </span>
-                                                                     </td> 
-                                                                      </tr>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '190px',verticalAlign: 'top'  }}>Income/month-Height-Complexion</b>
-                                                                        </td>
-                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span id="IncomeMonth" className="Label" style={{ textTransform: 'capitalize' }}>{user.educationOccupation.income}</span>
-                                                                          <span id="Height" className="Label" style={{ textTransform: 'capitalize' }}>- {user.physicalAttributes.height}</span>
-                                                                          <span id="Complexion" className="Label" style={{ textTransform: 'capitalize' }}>- {user.physicalAttributes.complexion}</span>
-                                                                        </td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Mother Tongue-Diet</b>
-                                                                        </td>
-                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span id="MotherTongue" className="Label" style={{ textTransform: 'capitalize' }}>{user.personalDetails.motherTongue}</span>
-                                                                          <span id="diet" className="Label" style={{ textTransform: 'capitalize' }}></span>
-                                                                        </td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Disability (If any)</b>
-                                                                        </td>
-                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span id="physicalStatus" className="Label" style={{ textTransform: 'capitalize' }}>{user.physicalAttributes.physicalStatus}</span>
-                                                                        </td>
-                                                                      </tr>
-                                                                      <tr>
-                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
-                                                                          <b style={{ fontWeight: 'normal', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '190px',verticalAlign: 'top' }}>Parents Alive-Father's Job - Mother's Job</b>
-                                                                        </td>
-                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span className="Label" style={{ textTransform: 'capitalize' }}>
-                                                                            
-                                                                            {withBreakAfterNWords(getParentsAliveStatus(), 7)}
+                <td className="head" align="left">
+                  <b style={{ color: "red" }}>Reg. No. :</b>{" "}
+                  <b>
+                    <span
+                      id="Reg_No"
+                      className="Label"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {user.id}
+                    </span>
+                  </b>
+                </td>
 
-                                                                          </span>
-                                                              
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
+                <td className="head" style={{ width: "250px" }} align="left">
+                  <b style={{ color: "red", textTransform: "capitalize" }}>
+                    Name :
+                  </b>{" "}
+                  <b>
+                    <span
+                      id="Name"
+                      className="Label"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {user.personalDetails.txtName}
+                    </span>
+                  </b>
+                </td>
+
+                <td className="head" style={{ width: "190px" }} align="left">
+                  <b style={{ color: "red" }}>Moblie No :</b>{" "}
+                  <b>
+                    <span
+                      id="ContactNo1"
+                      className="Label"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {user.contactDetails.mobileNumber || 'Not Provided'}
+                    </span>
+                  </b>
+                </td>
+
+                <td className="head" align="left">
+                  <b style={{ color: "red" }}>Email ID :</b>{" "}
+                  <b>
+                    <span
+                      id="Email1"
+                      className="Label"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {user.schemeDetails.username || 'Not Provided'}
+                      {" "}
+                    </span>
+                  </b>
+                </td>
+              </tr>
+
+              <tr>
+                <td className="head" align="left">
+                  <b style={{ color: "red" }}>Scheme:</b>{" "}
+                  <b>
+                    <span
+                      id="scheme1"
+                      className="Label"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {user.schemeDetails.scheme || ''}
+                    </span>
+                  </b>
+                </td>
+
+                <td className="head" style={{ width: "250px" }} align="left">
+                  <b style={{ color: "red" }}>Status:</b>{" "}
+                  <b>
+                    <span
+                      id="Status"
+                      className="Label"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {user.personalDetails.maritalStatus}
+                    </span>
+                  </b>
+                </td>
+
+                <td className="head" style={{ width: "190px" }} align="left">
+                  <b style={{ color: "red" }}>Reg.Month. :</b>{" "}
+                  <b>
+                    <span
+                      id="Reg_Month"
+                      className="Label"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {user.registrationDate || ''}
+                    </span>
+                  </b>
+                </td>
+
+                <td className="head" align="left">
+                  <b style={{ color: "red" }}>Exp.Month. :</b>{" "}
+                  <b>
+                    <span
+                      id="Exp_Month"
+                      className="Label"
+                      style={{ textTransform: "capitalize" }}
+                    >
+                      {user.ExpiryDate || ''}
+                    </span>
+                  </b>
+                </td>
+              </tr>
+            </tbody>
+            </table>
+        </td>
+      </tr>
+    </tbody>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td valign="top">
+                                        <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                                          <tbody>
+                                            <tr>
+                                              <td style={{ border: '2px solid #D7E1FF' }}>
+                                                <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                                                  <tbody>
+                                                    <tr>
+                                                      <td valign="top">
+                                                        <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                                                          <tbody>
+                                                            <tr>
+                                                              <td className="Label" style={{ fontWeight: 'bold', color: 'Green', backgroundColor: '#D7E1FF', textAlign: 'left', fontSize: '15px' }}>
+                                                                Bio Data
+                                                              </td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td style={{ borderBottom: '1px solid #D7E1FF', borderRight: '1px solid #D7E1FF' }}>
+                                                                <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+
+                                                                     <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold' }}>Religion-Mothertongue-<br></br>Caste-Sub caste</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="religion" className="Label" style={{ whiteSpace: 'normal'}}>{user.astrologyDetails.religion}</span>
+                                                                        <span id="motherTongue" className="Label" style={{ textTransform: 'capitalize' }}>- {user.personalDetails.motherTongue}</span>
+                                                                        <span id="caste" className="Label" style={{ textTransform: 'capitalize' }}>- {user.astrologyDetails.caste}</span>
+                                                                        <span id="subcaste" className="Label" style={{ textTransform: 'capitalize' }}>- {user.astrologyDetails.subcaste}</span>
+                                                                      </td>
+                                                                    </tr>
+                                                                  
+                                                                    <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold' }}>Gender</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="gender" className="Label" style={{ whiteSpace: 'normal'}}>{user.personalDetails.gender}</span>
+                                                                      </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold' }}>DOB-Time-Place</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="DOB" className="Label" style={{ textTransform: 'capitalize' }}>{user.personalDetails.dateOfBirth}</span>
+                                                                        <span id="Time" className="Label" style={{ textTransform: 'capitalize',  display: 'inline-block', maxWidth: '150px',verticalAlign: 'top' }}> - {user.personalDetails.timeOfBirth.hour}:{user.personalDetails.timeOfBirth.minute} {user.personalDetails.timeOfBirth.period}</span>
+                                                                        <span id="Place" className="Label" style={{ textTransform: 'capitalize' }}> - {user.personalDetails.placeOfBirth}</span>
+                                                                      </td>
+                                                                    </tr>
+                                                                    
+                                                                    <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold' }}>Gothram-Star-Rasi</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="Gothram" className="Label" style={{ textTransform: 'capitalize' }}>{user.astrologyDetails.gothram}</span>
+                                                                        <span id="Star" className="Label" style={{ textTransform: 'capitalize' }}> - {user.astrologyDetails.star}</span>
+                                                                        <span id="Rasi" className="Label" style={{ textTransform: 'capitalize' }}> - {user.astrologyDetails.raasi}</span>
+                                                                      </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold' }}>Padam</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="Gothram" className="Label" style={{ textTransform: 'capitalize' }}>{user.astrologyDetails.padam}</span>
+                                                                        
+                                                                        
+                                                                      </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '190px',verticalAlign: 'top'  }}>Qualification-Job-Place of Job</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="Qualification1" className="Label" style={{ textTransform: 'capitalize' }}>{user.educationOccupation.qualification}</span>
+                                                                        <span id="Job" className="Label" style={{ textTransform: 'capitalize' }}> - {user.educationOccupation.job}</span>
+                                                                        <span id="Place" className="Label" style={{ textTransform: 'capitalize' }}> - {user.educationOccupation.placeOfJob}</span>
+                                                                      </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '190px',verticalAlign: 'top'  }}>Income/month-Height-Complexion</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="IncomeMonth" className="Label" style={{ textTransform: 'capitalize' }}>{user.educationOccupation.income}</span>
+                                                                        <span id="Height" className="Label" style={{ textTransform: 'capitalize' }}>- {user.physicalAttributes.height}</span>
+                                                                        <span id="Complexion" className="Label" style={{ textTransform: 'capitalize' }}>- {user.physicalAttributes.complexion}</span>
+                                                                      </td>
+                                                                    </tr>
+                                                                    
+                                                                    <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold' }}>Disability (If any)</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="physicalStatus" className="Label" style={{ textTransform: 'capitalize' }}>{user.physicalAttributes.physicalStatus}</span>
+                                                                      </td>
+                                                                    </tr>
+
+                                                                     <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold' }}>Father's Name - Mother's Name</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span id="physicalStatus" className="Label" style={{ textTransform: 'capitalize' }}>{user.personalDetails.fatherName} </span>
+                                                                         <span id="physicalStatus" className="Label" style={{ textTransform: 'capitalize' }}>- {user.personalDetails.motherName}</span>
+                                                                      </td>
+                                                                    </tr>
+
+
+                                                                    <tr>
+                                                                      <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '150px' }}>
+                                                                        <b style={{ fontWeight: 'bold', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '190px',verticalAlign: 'top' }}>Parents Alive-Father's Job - Mother's Job</b>
+                                                                      </td>
+                                                                      <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                        <span className="Label" style={{ textTransform: 'capitalize' }}>
+                                                                        
+                                                                          {getParentsAliveStatus()}
+                                                                        </span>
+                                                          
+                                                                      </td>
+                                                                    </tr>
+                                                                  
                                                                   </table>
+                                                                  
                                                                 </td>
                                                               </tr>
                                                               <tr>
                                                                 <td className="Label" style={{ borderBottom: '1px solid #D7E1FF', borderRight: '1px solid #D7E1FF' }}>
                                                                   <table border="0" cellPadding="0" cellSpacing="0" width="100%">
                                                                     <tbody>
-                                                                      <tr style={{ height: '20px', verticalAlign: 'middle' }}>
+                                                                      <tr style={{ height: '40px', verticalAlign: 'middle' }}>
                                                                         <td style={{ width: '150px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', backgroundColor: '#cccccc', textAlign: 'center', fontWeight: 'bold' }} className="Label">
-                                                                          <b style={{ fontWeight: 'normal' }}>Relationship</b>
+                                                                          <b style={{ fontWeight: 'bold', fontSize: '16px' }}>Relationship</b>
                                                                         </td>
                                                                         <td style={{ width: '90px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', backgroundColor: '#cccccc', textAlign: 'center', fontWeight: 'bold' }} className="Label">
-                                                                          <b style={{ fontWeight: 'normal' }}>Elder Brother</b>
+                                                                          <b style={{ fontWeight: 'bold', fontSize: '16px' }}>Elder Brother</b>
                                                                         </td>
                                                                         <td style={{ width: '90px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', backgroundColor: '#cccccc', textAlign: 'center', fontWeight: 'bold' }} className="Label">
-                                                                          <b style={{ fontWeight: 'normal' }}>Younger brother</b>
+                                                                          <b style={{ fontWeight: 'bold', fontSize: '16px' }}>Younger brother</b>
                                                                         </td>
                                                                         <td style={{ width: '120px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', backgroundColor: '#cccccc', textAlign: 'center', fontWeight: 'bold' }} className="Label">
-                                                                          <b style={{ fontWeight: 'normal' }}>Elder Sister</b>
+                                                                          <b style={{ fontWeight: 'bold', fontSize: '16px' }}>Elder Sister</b>
                                                                         </td>
                                                                         <td style={{ width: '120px', borderLeft: '1px solid #555555', borderRight: '1px solid #555555', backgroundColor: '#cccccc', borderTop: '1px solid #555555', textAlign: 'center', fontWeight: 'bold' }} className="Label">
-                                                                          <b style={{ fontWeight: 'normal' }}>Younger Sister</b>
+                                                                          <b style={{ fontWeight: 'bold', fontSize: '16px' }}>Younger Sister</b>
                                                                         </td>
                                                                         <td>&nbsp;</td>
                                                                       </tr>
                                                                       <tr style={{ height: '20px', verticalAlign: 'middle' }}>
-                                                                        <td style={{ width: '150px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', textAlign: 'center', backgroundColor: 'White', fontWeight: 'bold' }} className="Label">
+                                                                        <td style={{ width: '150px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', textAlign: 'center', backgroundColor: 'White', fontWeight: 'bold', fontSize: '17px' }} className="Label">
                                                                           Married
                                                                         </td>
                                                                   
@@ -367,15 +478,15 @@ const line = [
                                                                         <td style={{ width: '120px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', textAlign: 'center' }}>
                                                                           <span id="Label3" style={{ textTransform: 'capitalize' }}>{user.personalDetails.siblings.married.elderSisters}</span>
                                                                         </td>
-                                                                        
-                                                                        <td style={{ width: '120px', borderLeft: '1px solid #555555', borderRight: '1px solid #555555', borderTop: '1px solid #555555', textAlign: 'center' }}>
+
+                                                                        <td style={{ width: '120px', borderLeft: '1px solid #555555', borderRight: '1px solid #555555', borderTop: '1px solid #555555', textAlign: 'center' }} className="Label">
                                                                           <span id="Label4" style={{ textTransform: 'capitalize' }}>{user.personalDetails.siblings.married.youngerSisters}</span>
                                                                         </td>
 
                                                                         <td>&nbsp;</td>
                                                                       </tr>
                                                                       <tr style={{ height: '20px', verticalAlign: 'middle' }}>
-                                                                        <td style={{ width: '150px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', borderBottom: '1px solid #555555', textAlign: 'center', backgroundColor: 'White', fontWeight: 'bold' }} className="Label">
+                                                                        <td style={{ width: '150px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', borderBottom: '1px solid #555555', textAlign: 'center', backgroundColor: 'White', fontWeight: 'bold', fontSize: '17px' }} className="Label">
                                                                           UnMarried
                                                                         </td>
                                                                         <td style={{ width: '90px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', borderBottom: '1px solid #555555', textAlign: 'center' }}>
@@ -387,7 +498,7 @@ const line = [
                                                                         <td style={{ width: '120px', borderLeft: '1px solid #555555', borderTop: '1px solid #555555', borderBottom: '1px solid #555555', textAlign: 'center' }}>
                                                                           <span id="Label7" style={{ textTransform: 'capitalize' }}>{user.personalDetails.siblings.unmarried.elderSisters}</span>
                                                                         </td>
-                                                                        <td style={{ width: '120px', borderLeft: '1px solid #555555', borderRight: '1px solid #555555', borderBottom: '1px solid #555555', borderTop: '1px solid #555555', textAlign: 'center' }}>
+                                                                        <td style={{ width: '120px', borderLeft: '1px solid #555555', borderRight: '1px solid #555555', borderBottom: '1px solid #555555', borderTop: '1px solid #555555', textAlign: 'center' }} className="Label">
                                                                           <span id="Label8" style={{ textTransform: 'capitalize' }}>{user.personalDetails.siblings.unmarried.youngerSisters}</span>
                                                                         </td>
                                                                         <td>&nbsp;</td>
@@ -400,17 +511,44 @@ const line = [
                                                                 <td style={{ borderBottom: '1px solid #D7E1FF', borderRight: '1px solid #D7E1FF' }}>
                                                                   <table border="0" cellPadding="0" cellSpacing="0" width="100%">
                                                                     <tbody>
+
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Own House-Nativity</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Weight-BloodGroup</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF' }}>
-                                                                          <span id="Nativity" className="Label" style={{ textTransform: 'capitalize' }}>{user?.personalDetails?.nativity|| ''}</span>
+                                                                          <span id="Weight" className="Label" style={{ textTransform: 'capitalize' }}>{user?.physicalAttributes?.weight|| ''} </span>
+                                                                          <span id="BloodGroup" className="Label" style={{ textTransform: 'capitalize' }}>- {user?.physicalAttributes?.bloodGroup|| ''}</span>
                                                                         </td>
                                                                       </tr>
+
+
+
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Any Other Details</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Marital Status-Nativity</b>
+                                                                        </td>
+                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                          <span id="maritalStatus" className="Label" style={{ textTransform: 'capitalize' }}>{user?.personalDetails?.maritalStatus || ''}</span>
+                                                                          <span id="Nativity" className="Label" style={{ textTransform: 'capitalize' }}>- {user?.personalDetails?.nativity|| ''}</span>
+                                                                        </td>
+                                                                      </tr>
+
+                                                                        <tr>
+                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
+                                                                          <b style={{ fontWeight: 'bold' }}>Diet</b>
+                                                                        </td>
+                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                          <span id="maritalStatus" className="Label" style={{ textTransform: 'capitalize' }}>{user?.physicalAttributes?.diet || ''}</span>
+                                                                  
+                                                                        </td>
+                                                                      </tr>
+
+                                          
+
+                                                                      <tr>
+                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
+                                                                          <b style={{ fontWeight: 'bold' }}>Any Other Details</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF',textTransform: 'capitalize', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '550px',verticalAlign: 'top', }}>
                                                                           <span id="personalDetails.AnyOtherDetails" className="Label" style={{ textTransform: 'capitalize', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '550px',verticalAlign: 'top' }}>{user?.personalDetails.AnyOtherDetails|| ''}</span>
@@ -421,7 +559,7 @@ const line = [
                                                                 </td>
                                                               </tr>
                                                               <tr>
-                                                                <td className="Label" style={{ fontWeight: 'bold', color: 'Green', backgroundColor: '#D7E1FF', textAlign: 'left', fontSize: '14px' }}>
+                                                                <td className="Label" style={{ fontWeight: 'bold', color: 'Green', backgroundColor: '#D7E1FF', textAlign: 'left', fontSize: '15px' }}>
                                                                   Life Partner Expectations (வாழ்க்கை துணை பற்றிய எதிர்பார்ப்பு)
                                                                 </td>
                                                               </tr>
@@ -431,7 +569,7 @@ const line = [
                                                                     <tbody>
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Qualification</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Qualification</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF' }}>
                                                                           <span id="Qualification" className="Label" style={{ textTransform: 'capitalize' }}>{user?.partnerExpectation?.qualification || ''}</span>
@@ -439,7 +577,7 @@ const line = [
                                                                       </tr>
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Job</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Job</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF' }}>
                                                                           <span id="Job_ForGirls" className="Label" style={{ textTransform: 'capitalize' }}>{user?.partnerExpectation?.jobRequired || ''}</span>
@@ -447,7 +585,7 @@ const line = [
                                                                       </tr>
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Job-Income/month</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Job-Income/month</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF' }}>
                                                                           <span id="JobPlace" className="Label" style={{ textTransform: 'capitalize' }}>{user?.partnerExpectation?.job || '-'} - {user?.partnerExpectation?.income || ''}</span>
@@ -456,7 +594,7 @@ const line = [
                                                                       </tr>
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Caste - Sub Caste</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Caste - Sub Caste</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF' }}>
                                                                           <span id="Caste1" className="Label" style={{ textTransform: 'capitalize' }}> {user?.partnerExpectation?.caste || ''} </span>
@@ -465,7 +603,7 @@ const line = [
                                                                       </tr>
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Diet</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Diet</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF' }}>
                                                                           <span id="Diet_Expec" className="Label" style={{ textTransform: 'capitalize' }}> {getDietStatus(user.partnerExpectation?.diet)}</span>
@@ -473,15 +611,27 @@ const line = [
                                                                       </tr>
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Marital Status</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Marital Status</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF' }}>
                                                                           <span id="MaritalStatus_Expec" className="Label" style={{ textTransform: 'capitalize' }}>{getMaritalStatusLabel(user.partnerExpectation?.maritalStatus)}</span>
                                                                         </td>
                                                                       </tr>
+
+                                                                      <tr>
+                                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
+                                                                          <b style={{ fontWeight: 'bold' }}>Horoscope Required?</b>
+                                                                        </td>
+                                                                        <td style={{ borderBottom: '1px solid #D7E1FF' }}>
+                                                                          <span id="MaritalStatus_Expec" className="Label" style={{ textTransform: 'capitalize' }}>{user.partnerExpectation?.horoscopeRequired}</span>
+                                                                        </td>
+                                                                      </tr>
+
+
+
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', color: 'Green', width: '50px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Any Other Expectation</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Any Other Expectation</b>
                                                                         </td>
                                                                         <td>
                                                                           <span id="AnyOtherExpectation" className="Label" style={{ textTransform: 'capitalize', whiteSpace: 'normal', wordBreak: 'break-word', display: 'inline-block', maxWidth: '550px',verticalAlign: 'top' }}> {user?.partnerExpectation?.AnyOtherExpectation || ''}</span>
@@ -510,7 +660,10 @@ const line = [
                                                                           www.SornamMatrimony.com
                                                                   </div>
                                                                   {/* Replaced broken import with inline component */}
-                                                                  <ProfileFullViewphoto/>
+                                                                  <span className="Label" style={{ textTransform: 'capitalize' }}>
+                                                                  <ProfileFullViewphoto userId={user.id} />
+                                                                  </span>
+                                                                
                                                                 </td>
                                                               </tr>
                                                             </tbody>
@@ -522,7 +675,7 @@ const line = [
                                                 </td>
                                               </tr>
                                               <tr>
-                                                <td className="Label" style={{ fontWeight: 'bold', color: 'Green', backgroundColor: '#D7E1FF', textAlign: 'left', fontSize: '14px' }}>
+                                                <td className="Label" style={{ fontWeight: 'bold', color: 'Green', backgroundColor: '#D7E1FF', textAlign: 'left', fontSize: '15px' }}>
                                                   Contact Details
                                                 </td>
                                               </tr>
@@ -536,11 +689,11 @@ const line = [
                                                             <tbody>
                                                               <tr>
                                                                 <td style={{ width: '50%' }}>
-                                                                  <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                                                                  <table border="0" cellPadding="5" cellSpacing="0" width="100%">
                                                                     <tbody>
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderLeft: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Contact Person</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Contact Person</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF', borderLeft: '1px solid #D7E1FF' }}>
                                                                           <span id="ContactPerson" className="Label" style={{ textTransform: 'capitalize' }}> {user?.contactDetails?.contactPerson || ''} </span>
@@ -550,11 +703,11 @@ const line = [
                                                                   </table>
                                                                 </td>
                                                                 <td style={{ width: '50%' }}>
-                                                                  <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                                                                  <table border="0" cellPadding="5" cellSpacing="0" width="100%">
                                                                     <tbody>
                                                                       <tr>
                                                                         <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderLeft: '1px solid #D7E1FF', borderBottom: '1px solid #D7E1FF', color: 'Green', width: '120px' }}>
-                                                                          <b style={{ fontWeight: 'normal' }}>Contact No.</b>
+                                                                          <b style={{ fontWeight: 'bold' }}>Contact No.</b>
                                                                         </td>
                                                                         <td style={{ borderBottom: '1px solid #D7E1FF' }}>
                                                                           <span id="ContactNo" className="Label" style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{user?.contactDetails?.mobileNumber || ''} </span>
@@ -563,25 +716,46 @@ const line = [
                                                                     </tbody>
                                                                   </table>
                                                                 </td>
+
                                                               </tr>
                                                             </tbody>
                                                           </table>
                                                         </td>
                                                       </tr>
+
+                                                      
+
+
                                                       <tr>
                                                         <td>
-                                                          <table border="0" cellPadding="0" cellSpacing="0" width="100%">
+                                                          <table border="0" cellPadding="5" cellSpacing="0" width="100%">
                                                             <tbody>
                                                               <tr>
                                                                 <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderLeft: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
-                                                                  <b style={{ fontWeight: 'normal' }}>Email ID.</b>
+                                                                  <b style={{ fontWeight: 'bold' }}>Present Address</b>
                                                                 </td>
                                                                 <td>
-                                                                  <span id="Email" className="Label">{user?.schemeDetails?.username || ''}</span>
+                                                                  <span id="Email" className="Label">{user?.contactDetails?.presentAddress || ''}</span>
                                                                 </td>
                                                               </tr>
+
+                    
                                                             </tbody>
                                                           </table>
+
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                    
+                                                  </table>
+                                                  <table border="0" cellPadding="5" cellSpacing="0" width="100%">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td className="Label" style={{ borderRight: '1px solid #D7E1FF', borderLeft: '1px solid #D7E1FF', color: 'Green', width: '190px' }}>
+                                                          <b style={{ fontWeight: 'bold' }}>Permanent Address</b>
+                                                        </td>
+                                                        <td>
+                                                          <span id="Email" className="Label">{user?.contactDetails?.permanentAddress || ''}</span>
                                                         </td>
                                                       </tr>
                                                     </tbody>
@@ -613,24 +787,14 @@ const line = [
                                           <table border="0" cellPadding="0" cellSpacing="0" width="100%">
                                             <tbody>
                                               <tr>
-                                                <td width="100%" height="28">
+                                                <td width="100%" height="60">
+                                                  
                                                   <table border="0" width="100%" cellPadding="0">
                                                     <tbody>
                                                       <tr>
-                                                        <td align="center" className="Label" style={{ color: 'Green' }}>
-                                                          &nbsp;Website : www.SornamMatrimony.org &nbsp;&nbsp;&nbsp;&nbsp;
-                                                          <span style={{ color: 'Green' }}>Phone :</span> : +91- 8056 4848 97 &nbsp;&nbsp;&nbsp;&nbsp;
-                                                          <span style={{ color: 'Green' }}>Email :</span> dumdumdummarriage@gmail.com
-                                                        </td>
-                                                      </tr>
-                                                    </tbody>
-                                                  </table>
-                                                  <table border="0" width="100%" cellPadding="0">
-                                                    <tbody>
-                                                      <tr>
-                                                        <td align="center" className="Label" style={{ color: 'Green' }}>
+                                                        <td align="center" className="Label" style={{ color: 'Green',fontWeight: 'bold', fontSize: '15px' }}>
                                                           Dasa Balance :
-                                                          <span id="lblDasa" className="Label" style={{ textTransform: 'capitalize' }}></span> {user?.astrologyDetails?.horoscopeChart?.balance?.dasa || ''} Dasa
+                                                          <span id="lblDasa" className="Label" style={{ textTransform: 'capitalize', }}></span> {user?.astrologyDetails?.horoscopeChart?.balance?.dasa || ''} Dasa
                                                           &nbsp;&nbsp;<span id="lblYear" className="Label" style={{ textTransform: 'capitalize' }}></span> {user?.astrologyDetails?.horoscopeChart?.balance?.years || ''} Year(s)
                                                           &nbsp;&nbsp;<span id="lblMonths" className="Label" style={{ textTransform: 'capitalize' }}></span> {user?.astrologyDetails?.horoscopeChart?.balance?.months || ''} Month(s)
                                                           &nbsp;&nbsp;<span id="lblDays" className="Label" style={{ textTransform: 'capitalize' }}></span> {user?.astrologyDetails?.horoscopeChart?.balance?.days || ''} Day(s)
@@ -729,10 +893,10 @@ const line = [
                                                                         <td width="88px" style={{ height: '56px', border: '1px solid #000000', borderRight: '0px solid #cccccc', verticalAlign: 'middle', textAlign: 'center' }}>
                                                                           <span id="lblRasi10" className="Label12" style={{ textTransform: 'capitalize' }}> {user?.astrologyDetails?.horoscopeChart?.rasi?.txtHoro9 || ''}</span>
                                                                         </td>
-                                                                        <td width="88px" style={{ height: '56px', border: '1px solid #000000', borderRight: '0px solid #cccccc', verticalAlign: 'middle', textAlign: 'center' }}>
+                                                                        <td width="88px" style={{ height: '56px', border: '1px solid #000000', borderRight: '0px solid #000000', verticalAlign: 'middle', textAlign: 'center' }}>
                                                                           <span id="lblRasi11" className="Label12" style={{ textTransform: 'capitalize' }}> {user?.astrologyDetails?.horoscopeChart?.rasi?.txtHoro8 || ''}</span>
                                                                         </td>
-                                                                        <td width="88px" style={{ height: '56px', border: '1px solid #000000', borderRight: '1px solid #000000', verticalAlign: 'middle', textAlign: 'center' }}>
+                                                                        <td width="88px" style={{ height: '56px', border: '1px solid #000000', verticalAlign: 'middle', textAlign: 'center' }}>
                                                                           <span id="lblRasi12" className="Label12" style={{ textTransform: 'capitalize' }}> {user?.astrologyDetails?.horoscopeChart?.rasi?.txtHoro7 || ''}</span>
                                                                         </td>
                                                                       </tr>
@@ -743,7 +907,7 @@ const line = [
                                                             </tbody>
                                                           </table>
                                                         </td>
-                                                        <td align="center" style={{ color: 'Maroon', fontWeight: 'bold', fontFamily: 'Arial', verticalAlign: 'middle', fontSize: '16px', lineHeight: '30px' }}>
+                                                        <td align="center" style={{ color: 'white', fontWeight: 'bold', fontFamily: 'Arial', verticalAlign: 'middle', fontSize: '16px', lineHeight: '30px' }}>
                                                           சொர்ணம் மேட்ரிமோனி,
                                                           <br />107A. Anbunagar,<br />Achariyapuram, <br />Pondy - 605110
                                                           <br />
@@ -834,7 +998,7 @@ const line = [
                                                                         <td width="88px" style={{ height: '56px', border: '1px solid #000000', borderRight: '0px solid #cccccc', verticalAlign: 'middle', textAlign: 'center' }}>
                                                                           <span id="lblAmsam10" className="Label12" style={{ textTransform: 'capitalize' }}>{user?.astrologyDetails?.horoscopeChart?.amsam?.txtAmsam9 || ''}</span>
                                                                         </td>
-                                                                        <td width="88px" style={{ height: '56px', border: '1px solid #000000', borderRight: '0px solid #cccccc', verticalAlign: 'middle', textAlign: 'center' }}>
+                                                                        <td width="88px" style={{ height: '56px', border: '1px solid #000000', borderRight: '0px solid #000000', verticalAlign: 'middle', textAlign: 'center' }}>
                                                                           <span id="lblAmsam11" className="Label12" style={{ textTransform: 'capitalize' }}>{user?.astrologyDetails?.horoscopeChart?.amsam?.txtAmsam8 || ''}</span>
                                                                         </td>
                                                                         <td width="86px" style={{ height: '56px', border: '1px solid #000000', verticalAlign: 'middle', textAlign: 'center' }}>
@@ -844,25 +1008,48 @@ const line = [
                                                                     </tbody>
                                                                   </table>
                                                                 </td>
-                                                              </tr>
-                                                            </tbody>
-                                                          </table>
-                                                        </td>
-                                                        <td>&nbsp;</td>
+                                                              </tr>                                                                                                                         
+                                                            </tbody>                                                                                                                    
+                                                          </table>                                                                                                                    
+                                                        </td>                                                       
+                                                        <td>&nbsp;</td>                                                                                                              
                                                       </tr>
+
+
+                                                       
+                                                      
                                                     </tbody>
+                                                    
                                                   </table>
+
+                                                  
+                                                
+
+
+
+
+
                                                 </td>
+                                                
                                               </tr>
+                                              
                                             </tbody>
+                                            
                                           </table>
+                                          
                                         </td>
+                                        
                                       </tr>
                                     </tbody>
+                                    
                                   </table>
+                                  
                                 </td>
+                                
                               </tr>
+
                             </tbody>
+                            
                           </table>
                         </td>
                       </tr>
@@ -871,10 +1058,31 @@ const line = [
                 </td>
               </tr>
             </tbody>
+            <>
+  <tr style={{ height: "20px" }}>
+    <td></td>
+  </tr>
+  <tr>
+    <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+      <input
+        type="image"
+        name="Button1"
+        id="Button1"
+        alt="Edit"
+        src="images/Edit.jpg"
+        style={{ borderWidth: 0 }}
+      />
+    </td>
+  </tr>
+  <tr style={{ height: "20px" }}>
+    <td></td>
+  </tr>
+</>
           </table>
+          
         </div>
     </div>
   );
 };
 
-export default ProfileFullView;
+export default MyProfile;

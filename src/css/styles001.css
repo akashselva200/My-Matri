@@ -1,223 +1,376 @@
-/* styles001.css */
-
-.bgcolor {
-  background-color: #fafafa;
-  min-height: 100vh;
+/* Global */
+.body {
+  width: 190.5rex;
+  margin: 90% auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-  padding-bottom: 40px;
+  display: flex;              /* Flexbox for alignment */
+  justify-content: flex-end;  /* Push content to the right side */
+  background: #f9f9f9;        /* optional background color */
 }
 
-/* Form styling */
+/* Background wrapper */
+.bgcolor {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+/* Main container */
 .indexform {
-  max-width: 1320px;
+  max-width: 1250px;
+  width: 120%;
   margin: 0 auto;
-  padding: 16px;
-  box-sizing: border-box;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  padding: 30px;
 }
 
-/* Marquee */
+
+/* Marquee welcome text */
 .welcometxt {
-  font-size: 15px;
-  color: #800000;
-  font-weight: 600;
+  font-size: 17px !important;
+  font-weight: 600 !important;
   font-family: 'Georgia', serif;
-  margin: 10px auto;
-  white-space: nowrap;
+  color: #0aa53b !important;
+ 
+  
+  /* Force single line */
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
 }
 
-/* Flex container for main content */
-div[style*="display: flex"][style*="maxWidth: 1316px"] {
+/* Layout wrapper */
+.main-content {
   display: flex !important;
-  flex-wrap: wrap;
-  gap: 22px;
-  margin: 25px auto 0;
-  max-width: 1316px;
-  box-sizing: border-box;
+  flex-wrap: wrap !important;
+  gap: 22px !important;
+  margin: 25px auto 0 !important;
+  max-width: 1316px !important;
 }
 
-/* Left side main column */
-div[style*="flex: 2"] {
-  flex: 2 1 660px;
-  min-width: 300px;
-  box-sizing: border-box;
+/* Left column */
+.main-left {
+  flex: 2 1 660px !important;
+  min-width: 300px !important;
+  text-align: left !important;
+
 }
 
-/* Right side sidebar */
-div[style*="flex: 1"] {
-  flex: 1 1 300px;
-  min-width: 280px;
-  box-sizing: border-box;
-}
-
-/* Tamil links */
-.tamil a {
-  display: inline-block;
-  text-decoration: none;
-  color: #800000;
-  font-weight: 600;
-  transition: color 0.3s ease;
-}
-
-.tamil a:hover {
-  color: #b30000;
+/* Right column */
+.main-right {
+  flex: 1 1 300px !important;
+  min-width: 280px !important;
 }
 
 
 
-/* Rainbow text */
-#rainbowText {
-  transition: color 0.3s ease;
+
+/* Flex container for Logo + WhatsApp */
+.header-top {
+  display: flex;
+  justify-content: space-between; /* Logo left, WhatsApp right */
+  align-items: center;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 10px 20px;
 }
 
-/* Section titles */
+/* Logo */
+.sornam-logo img {
+  width: 550px;  /* desktop size */
+  height: auto;
+  display: block;
+}
+
+/* WhatsApp */
+.whatsapp-img img {
+  width: 400px;  /* desktop size */
+  height: auto;
+  display: block;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+
+  body{
+   width: 190.5rex;
+  margin: 90% auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;              /* Flexbox for alignment */
+  justify-content: flex-end;  /* Push content to the right side */
+  background: #f9f9f9;   }
+ 
+  
+  .header-top {
+  display: flex;
+  justify-content: space-between; /* Logo left, WhatsApp right */
+  align-items: center;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  }
+
+    .sornam-logo img {
+    width: 180px;   /* slightly smaller logo */
+  }
+
+  .whatsapp-img  {
+    width: 200rem;   /* give WhatsApp more space */
+  }
+}
+
+/* Desktop default */
+.image-block {
+  text-align: center;       /* center image */
+  margin: 20px auto;
+}
+
+.image-block {
+  width: 1000px;             /* desktop size */
+  max-width: 100%;          /* never overflow container */
+  border-radius: 12px;
+  
+}
+
+
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .image-block  {
+    width: 90%;            /* shrink slightly */
+    max-width: 60%;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .image-block  {
+    width: 100%;           /* full width of screen */
+    max-width: 99%;       /* no cutoff */
+    margin: 0 auto 10px 10px;      /* center align */
+    align-items: left;
+    display: flex;
+  }
+  
+}
+
+
+/* Section headings */
 .Wedding {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 20px !important;
+  font-weight: 700 !important;
   color: #4b0082;
-  margin-bottom: 12px;
-  border-bottom: 2px solid #4b0082;
-  padding-bottom: 6px;
+  margin-bottom: 12px !important;
+  border-bottom: 2px solid #4b0082!important;
+  padding-bottom: 6px !important;
   font-family: 'Georgia', serif;
+  text-align: center !important;
 }
 
-/* Border container for search forms */
+
+
+/* Box style */
 .border {
   background: #fff;
-  padding: 16px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 16px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+  margin-bottom: 20px !important;
 }
 
-/* Labels in tables */
+/* Labels */
 .Label {
-  font-weight: 600;
-  font-size: 15px;
-  padding-right: 10px;
-  vertical-align: middle;
-  color: #3a3a3a;
-  white-space: nowrap;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  padding-right: 10px !important;
+  vertical-align: middle !important;
+  color: #3a3a3a !important;
+  white-space: nowrap !important;
 }
 
-/* Select inputs */
+/* Select dropdown */
 .select {
-  width: 100%;
-  max-width: 200px;
-  padding: 6px 10px;
-  font-size: 14px;
-  border: 1.5px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
-  transition: border-color 0.25s ease;
+  width: 100% !important;
+  max-width: 200px !important;
+  padding: 6px 10px !important;
+  font-size: 14px !important;
+  border: 1.5px solid #828282;
+  border-radius: 6px !important;
+  background-color: #ffffff;
+  transition: border-color 0.25s ease !important;
 }
-
 .select:focus {
   border-color: #4b0082;
   outline: none;
 }
 
-/* Text input (search by reg no) */
+/* Text input */
 .TextBox {
-  width: 100%;
-  max-width: 165px;
-  padding: 6px 10px;
-  font-size: 14px;
-  border: 1.5px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.25s ease;
+  width: 100% !important;
+  max-width: 165px !important;
+  padding: 14px 10px !important;
+  font-size: 14px !important;
+  border: 1.5px solid #6d6d6d !important;
+  border-radius: 6px !important;
+  transition: border-color 0.25s ease !important;
 }
-
 .TextBox:focus {
-  border-color: #4b0082;
-  outline: none;
+  border-color: #4b0082 !important;
+  outline: none !important;
 }
 
-/* Button image */
-input[type="image"] {
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  border-radius: 6px;
+/* Image styles */
+.radius {
+  border-radius: 6px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
+  margin-bottom: 14px !important;
 }
 
-input[type="image"]:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(75, 0, 130, 0.5);
-}
-
-/* Flex container for images next to payment */
-div[style*="display: flex"][style*="justifyContent: center"] {
-  justify-content: center !important;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-/* Images inside small flex container */
-div[style*="display: flex"][style*="justifyContent: center"] img.radius {
-  width: 120px !important;
-  height: auto;
-  object-fit: cover;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.12);
-}
-
-/* Payment box image */
+/* Payment image */
 a > img[alt="Online Payment"] {
-  border-radius: 10px;
+  border-radius: 10px !important;
   border: 2px solid #0004fd !important;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease !important;
+  padding: 6px !important;
+  margin: 20px 10px 10px 40px !important;
+  
 }
-
 a > img[alt="Online Payment"]:hover {
   box-shadow: 0 0 15px 3px rgba(0, 0, 255, 0.5);
 }
 
-/* Bottom Subam image */
-div[style*="textAlign: center"][style*="margin: 36px"] img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.08);
+/* Subam image */
+.subam-img {
+  max-width: 280px !important;
+  margin: 36px auto 16px !important;
+  display: block;
+  border-radius: 12px !important;
+  box-shadow: 0 0 12px rgba(0,0,0,0.08) !important;
 }
 
+/* Sidebar container */
+.sidebar-sections-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+}
 
-/* Responsive tweaks */
+/* Buttons with image */
+button img, input[type="image"] {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+button img:hover, input[type="image"]:hover {
+  transform: scale(1.05);
+}
+
+/* ================= Responsive Breakpoints ================= */
+
+/* Tablet landscape */
 @media (max-width: 1024px) {
-  div[style*="display: flex"][style*="maxWidth: 1316px"] {
-    flex-direction: column;
-    max-width: 90%;
-    margin: 20px auto;
+  .main-content {
+    display: flex;
+    flex-direction: row;       /* make row instead of column */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
   }
-
-  div[style*="flex: 2"] {
+  .main-left, .main-right {
     flex: 1 1 100%;
-    min-width: auto;
   }
-
-  div[style*="flex: 1"] {
-    flex: 1 1 100%;
-    min-width: auto;
-    margin-top: 25px;
-  }
-
   .welcometxt {
-    width: 100% !important;
+    font-size: 14px;
+    white-space: normal;
+  }
+
+  .image-block {
+    flex: 1 1 45%;             /* take ~half width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+
+  .image-block img {
+    width: 100%;
+    max-width: 250px;          /* control image size on mobile */
+    height: auto;
+  }
+
+  .main-right.sidebar-sections-container {
+    flex: 1 1 50%;             /* other half width */
+    max-width: 100%;
+  }
+
+
+}
+
+/* Tablet portrait */
+@media (max-width: 768px) {
+  .indexform {
+    padding: 12px;
+  }
+  .Wedding {
+    font-size: 18px;
+  }
+  .Label {
     font-size: 14px;
   }
+  .radius {
+    width: 100% !important;
+    height: auto !important;
+  }
 }
 
-/* Container holding both Quick Search and Reg No search */
-.sidebar-sections-container {
-  margin-top: 8px; /* Push entire block down */
-  /* or padding-top: 60px; */
+/* Mobile */
+@media (max-width: 480px) {
+  .welcometxt {
+    font-size: 13px;
+  }
+  .select, .TextBox {
+    max-width: 100%;
+    font-size: 13px;
+    padding: 5px 8px;
+  }
+  #rainbowText {
+    font-size: 18px;
+  }
+  .Wedding {
+    font-size: 16px;
+  }
+  .subam-img {
+    max-width: 200px;
+  }
 }
 
-/* Or add margin-top separately to each section */
-.quick-search-section,
-.search-regno-section {
-  margin-top: 40px;
+
+.payment-block{
+  margin: 20px 0 10px 0!important;
+  text-align: center!important;
+
+
 }
 
+/* Subam image container */
+.subam-container {
+  text-align: center!important;
+  margin: 36px 0 16px!important;
+}
 
+/* Subam image styling */
+.subam-img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08)!important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease!important;
+}
+
+/* Hover effect */
+.subam-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
 

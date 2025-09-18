@@ -1,60 +1,86 @@
 
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
 /* --- Personal and Family Details Section (Green Theme) --- */
 .personal-details-section {
-  background: #f6fff6;
-  border: 2px solid #69af00;
-  border-radius: 10px;
-  padding: 22px 28px 18px 28px;
-  margin: 28px 0 18px 0;
-  box-shadow: 0 2px 8px #e0f3e0;
+  --section-pad: 0px;
+  --pad-start: 0px;           /* left/start padding */
+  --pad-end: 0px; 
+  --row-bg-odd: #d5e6fa;
+  --row-bg-even: #ffffff; 
+  border: 2px solid rgb(104, 173, 0);
+  border-radius: 3px;
+  padding: 0px 0px -10px var(--section-pad);
+  
 }
+
+.personal-details-section > .personal-details-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1px;
+  flex-wrap: wrap;
+  width: 100%;
+
+  /* bleed backgrounds into both side paddings */
+  margin-inline-start: calc(-1 * var(--pad-start));
+  margin-inline-end:   calc(-1 * var(--pad-end));
+
+  /* restore inner spacing so content aligns nicely */
+  padding-inline-start: calc(16px + var(--pad-start));
+  padding-inline-end:   calc(16px + var(--pad-end));
+  padding-block: 0px;
+
+  box-sizing: border-box;
+  border-radius: 1px;
+  align-items: center;
+}
+
+/* Alternate backgrounds */
+.personal-details-section > .personal-details-row:nth-of-type(odd)  { background: var(--row-bg-odd); }
+.personal-details-section > .personal-details-row:nth-of-type(even) { background: var(--row-bg-even); }
 
 .personal-details-legend {
   background-color: #006633;
-padding: 3px 30px;
+padding: 3px 13px;
 font-weight: bold;
 color: white;
 text-align: center;
 display: block;
-width: 100%;
+width: 98%;
 border-radius: 0;
-margin-left: -30px;
-margin-right: 30px;
+margin-left: -2px;
+
 }
 
 .personal-details-row {
   display: flex;
-  gap: 14px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
 }
 
-.personal-details-label {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  color: #265371;
-  font-weight: 500;
-  min-width: 160px;
-  margin-bottom: 0;
-}
 
 .personal-details-input,
 .personal-details-select,
 .personal-details-textarea {
-  width: 150px;
-  padding: 7px 10px;
+  width: 100px;
+  padding: 5px 10px;
+  border: 1px solid #5c8d5c;
+  border-radius: 3px;
+  font-size: 15px;
+  background: #fff;
+  color: #265371;
+  margin-top: 0px;
+}
+
+.personal-select{
+   width: 57px;
+  padding: 7px 0px;
   border: 1px solid #b3e6b3;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 12px;
   background: #fff;
   color: #265371;
   margin-top: 4px;
+
 }
 
 .personal-details-textarea {
@@ -62,332 +88,446 @@ margin-right: 30px;
   resize: vertical;
 }
 
-@media (max-width: 700px) {
-  .personal-details-section {
-    padding: 10px;
-  }
-  .personal-details-row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .personal-details-label,
-  .personal-details-input,
-  .personal-details-select,
-  .personal-details-textarea {
-    width: 100%;
-  }
-}
+
 /* ---  --- */
 
 /* --- Physical Attributes Section (Green Theme) --- */
 .physical-attributes-section {
-  background: #f6fff6;
+  --section-pad: 0px;
+  --pad-start: 0px;           /* left/start padding */
+  --pad-end: 0px;
+  --row-bg-odd: #d6e7ff;
+  --row-bg-even: #ffffff;
+
   border: 2px solid #69af00;
-  border-radius: 10px;
-  padding: 22px 28px 18px 28px;
-  margin: 28px 0 18px 0;
+  border-radius: 4px;
+  padding: 0px 0px -10px var(--section-pad);
   box-shadow: 0 2px 8px #e0f3e0;
+  margin: -2px 2px -5px 2px;
 }
+
+.physical-attributes-section > .physical-attributes-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1px;
+  flex-wrap: wrap;
+  width: 100%;
+
+  /* bleed backgrounds into both side paddings */
+  margin-inline-start: calc(-1 * var(--pad-start));
+  margin-inline-end:   calc(-1 * var(--pad-end));
+
+  /* restore inner spacing so content aligns nicely */
+  padding-inline-start: calc(16px + var(--pad-start));
+  padding-inline-end:   calc(16px + var(--pad-end));
+  padding-block: 6px;
+
+  box-sizing: border-box;
+  border-radius: 2px;
+  align-items: center;
+}
+
+/* Alternate row backgrounds */
+.physical-attributes-section > .physical-attributes-row:nth-of-type(odd)  { background: var(--row-bg-odd); }
+.physical-attributes-section > .physical-attributes-row:nth-of-type(even) { background: var(--row-bg-even); }
 
 .physical-attributes-legend {
-background-color: #006633;
-padding: 3px 30px;
-font-weight: bold;
-color: white;
-text-align: center;
-display: block;
-width: 100%;
-border-radius: 0;
-margin-left: -30px;
-margin-right: 30px;
-}
-
-.physical-attributes-row {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
+  background-color: #006633;
+  padding: 4px 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: block;
+  width: 98%;
+  border-radius: 0;
+  margin-left: -2px;
 }
 
 .physical-attributes-label {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;   /* 👈 text beside the input */
+  align-items: center;   /* vertically align nicely */
   font-size: 14px;
-  color: #265371;
+  color: #000000;
   font-weight: 500;
   min-width: 160px;
   margin-bottom: 0;
+  gap: 8px;              /* space between label text and input */
 }
 
 .physical-attributes-input,
 .physical-attributes-select {
   width: 150px;
-  padding: 7px 10px;
-  border: 1px solid #b3e6b3;
+  padding: 6px 10px;
+  border: 1px solid #70a3e2;
   border-radius: 4px;
   font-size: 14px;
   background: #fff;
   color: #265371;
-  margin-top: 4px;
+  margin-top: 0;         /* remove extra top spacing */
 }
 
-@media (max-width: 700px) {
-  .physical-attributes-section {
-    padding: 10px;
-  }
-  .physical-attributes-row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .physical-attributes-label,
-  .physical-attributes-input,
-  .physical-attributes-select {
-    width: 100%;
-  }
-}
-/* ---  --- */
 
 /* --- Education & Occupation Section (Green Theme) --- */
 .education-occupation-section {
-  background: #f6fff6;
+  --section-pad: 0px;
+  --pad-start: 0px;           /* left/start padding */
+  --pad-end: 0px;
+  --row-bg-odd: #d6e7ff;
+  --row-bg-even: #ffffff;
+
   border: 2px solid #69af00;
-  border-radius: 10px;
-  padding: 22px 28px 18px 28px;
-  margin: 28px 0 18px 0;
+  border-radius: 4px;
+  padding: 0px 0px -10px var(--section-pad);
   box-shadow: 0 2px 8px #e0f3e0;
+  margin: -2px 2px -5px 2px;
 }
+
+.education-occupation-section > .education-occupation-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1px;
+  flex-wrap: wrap;
+  width: 100%;
+
+  /* bleed backgrounds into both side paddings */
+  margin-inline-start: calc(-1 * var(--pad-start));
+  margin-inline-end:   calc(-1 * var(--pad-end));
+
+  /* restore inner spacing so content aligns nicely */
+  padding-inline-start: calc(16px + var(--pad-start));
+  padding-inline-end:   calc(16px + var(--pad-end));
+  padding-block: 6px;
+
+  box-sizing: border-box;
+  border-radius: 2px;
+  align-items: center;
+}
+
+/* Alternate row backgrounds */
+.education-occupation-section > .education-occupation-row:nth-of-type(odd)  { background: var(--row-bg-odd); }
+.education-occupation-section > .education-occupation-row:nth-of-type(even) { background: var(--row-bg-even); }
 
 .education-occupation-legend {
   background-color: #006633;
-padding: 3px 30px;
-font-weight: bold;
-color: white;
-text-align: center;
-display: block;
-width: 100%;
-border-radius: 0;
-margin-left: -30px;
-margin-right: 30px;
-}
-
-.education-occupation-row {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
+  padding: 4px 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: block;
+  width: 98%;
+  border-radius: 0;
+  margin-left: -2px;
 }
 
 .education-occupation-label {
   display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  color: #265371;
+  flex-direction: row;   /* 👈 text beside input */
+  align-items: center;
+  font-size: 15px;
+  color: #000000;
   font-weight: 500;
   min-width: 160px;
   margin-bottom: 0;
+  gap: 10px;              /* space between text & input */
 }
 
 .education-occupation-input,
 .education-occupation-select {
   width: 150px;
-  padding: 7px 10px;
-  border: 1px solid #b3e6b3;
+  padding: 6px 10px;
+  border: 1px solid #70a3e2;
   border-radius: 4px;
   font-size: 14px;
   background: #fff;
   color: #265371;
-  margin-top: 4px;
+  margin-top: 0;         /* remove extra spacing */
 }
 
-@media (max-width: 700px) {
-  .education-occupation-section {
-    padding: 10px;
-  }
-  .education-occupation-row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .education-occupation-label,
-  .education-occupation-input,
-  .education-occupation-select {
-    width: 100%;
-  }
-}
+
+
 /* ---  --- */
 
 /* --- Astrology Details Section (Green Theme) --- */
+/* --- Astrology Details Section (Green Theme) --- */
 .astrology-details-section {
-  background: #f6fff6;
+  --section-pad: 0px;
+  --pad-start: 0px;   /* left/start padding */
+  --pad-end: 0px;
+  --row-bg-odd: #d6e7ff;
+  --row-bg-even: #ffffff;  /* 👈 force even rows white */
+
   border: 2px solid #69af00;
-  border-radius: 10px;
-  padding: 22px 28px 18px 28px;
-  margin: 28px 0 18px 0;
+  border-radius: 4px;
+  padding: 0px var(--section-pad);  /* fixed invalid -10px */
   box-shadow: 0 2px 8px #e0f3e0;
+  margin: -2px 2px -5px 2px;
+  background: #ffffff; /* 👈 ensures base is white */
 }
+
+/* Alternate row backgrounds */
+.astrology-details-section > .astrology-details-row:nth-of-type(odd)  {
+  background: var(--row-bg-odd);
+}
+.astrology-details-section > .astrology-details-row:nth-of-type(even) {
+  background: var(--row-bg-even);
+}
+
+.astrology-details-section > .astrology-details-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1px;
+  flex-wrap: wrap;
+  width: 100%;
+
+  /* bleed backgrounds into both side paddings */
+  margin-inline-start: calc(-1 * var(--pad-start));
+  margin-inline-end:   calc(-1 * var(--pad-end));
+
+  /* restore inner spacing so content aligns nicely */
+  padding-inline-start: calc(16px + var(--pad-start));
+  padding-inline-end:   calc(16px + var(--pad-end));
+  padding-block: 6px;
+
+  box-sizing: border-box;
+  border-radius: 2px;
+  align-items: center;
+}
+
+/* Alternate row backgrounds */
+.astrology-details-section > .astrology-details-row:nth-of-type(odd)  { background: var(--row-bg-odd); }
+.astrology-details-section > .astrology-details-row:nth-of-type(even) { background: var(--row-bg-even); }
 
 .astrology-details-legend {
-background-color: #006633;
-padding: 3px 30px;
-font-weight: bold;
-color: white;
-text-align: center;
-display: block;
-width: 100%;
-border-radius: 0;
-margin-left: -30px;
-margin-right: 30px;
-}
-
-.astrology-details-row {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
+  background-color: #006633;
+  padding: 4px 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: block;
+  width: 98%;
+  border-radius: 0;
+  margin-left: -2px;
 }
 
 .astrology-details-label {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;   /* 👈 text beside input */
+  align-items: center;
   font-size: 14px;
-  color: #265371;
+  color: #000000;
   font-weight: 500;
   min-width: 160px;
   margin-bottom: 0;
+  gap: 8px;              /* spacing between text & input */
 }
 
 .astrology-details-input,
 .astrology-details-select {
   width: 150px;
-  padding: 7px 10px;
-  border: 1px solid #b3e6b3;
+  padding: 6px 10px;
+  border: 1px solid #70a3e2;
   border-radius: 4px;
   font-size: 14px;
   background: #fff;
   color: #265371;
-  margin-top: 4px;
+  margin-top: 0;         /* remove extra spacing */
 }
 
-@media (max-width: 700px) {
-  .astrology-details-section {
-    padding: 10px;
-  }
-  .astrology-details-row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .astrology-details-label,
-  .astrology-details-input,
-  .astrology-details-select {
-    width: 100%;
-  }
-}
+
+
+
 /* ---  --- */
 
-/* --- Communication Details Section (Green Theme) --- */
+/* --- Communication Details Section (Green Theme, Row Style) --- */
 .communication-details-section {
-  background: #f6fff6;
+  --section-pad: 0px;
+  --pad-start: 0px;
+  --pad-end: 0px;
+  --row-bg-odd: #ffffff;
+  --row-bg-even: #d6e7ff;
+
   border: 2px solid #69af00;
-  border-radius: 10px;
-  padding: 22px 28px 18px 28px;
-  margin: 28px 0 18px 0;
+  border-radius: 4px;
+  padding: 0px var(--section-pad);
   box-shadow: 0 2px 8px #e0f3e0;
+  margin: -2px 2px -5px 2px;
+  background: #ffffff; /* base white */
 }
+
+.communication-details-section > .communication-details-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1px;
+  flex-wrap: wrap;
+  width: 100%;
+
+  margin-inline-start: calc(-1 * var(--pad-start));
+  margin-inline-end:   calc(-1 * var(--pad-end));
+
+  padding-inline-start: calc(16px + var(--pad-start));
+  padding-inline-end:   calc(16px + var(--pad-end));
+  padding-block: 6px;
+
+  box-sizing: border-box;
+  border-radius: 2px;
+  align-items: center;
+}
+
+/* Alternate row backgrounds */
+.communication-details-section > .communication-details-row:nth-of-type(odd)  { background: var(--row-bg-odd); }
+.communication-details-section > .communication-details-row:nth-of-type(even) { background: var(--row-bg-even); }
 
 .communication-details-legend {
-background-color: #006633;
-padding: 3px 30px;
-font-weight: bold;
-color: white;
-text-align: center;
-display: block;
-width: 100%;
-border-radius: 0;
-margin-left: -30px;
-margin-right: 30px;
-}
-
-.communication-details-row {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
+  background-color: #006633;
+  padding: 4px 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: block;
+  width: 98%;
+  border-radius: 0;
+  margin-left: -2px;
 }
 
 .communication-details-label {
   display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  color: #265371;
+  flex-direction: row;   /* 👈 beside input */
+  align-items: center;
+  font-size: 15px;
+  color: #000000;
   font-weight: 500;
   min-width: 160px;
   margin-bottom: 0;
+  gap: 5px;
 }
 
 .communication-details-input,
 .communication-details-textarea {
-  width: 150px;
-  padding: 7px 10px;
-  border: 1px solid #b3e6b3;
+  width: 200px;   /* wider than astrology inputs */
+  padding: 6px 10px;
+  border: 1px solid #70a3e2;
   border-radius: 4px;
   font-size: 14px;
   background: #fff;
   color: #265371;
-  margin-top: 4px;
+  margin-top: 0;
   resize: none;
 }
 
 .communication-details-textarea {
-  min-height: 48px;
+  min-height: 60px;
 }
 
-@media (max-width: 700px) {
-  .communication-details-section {
-    padding: 10px;
-  }
-  .communication-details-row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .communication-details-label,
-  .communication-details-input,
-  .communication-details-textarea {
-    width: 100%;
-  }
+
+
+/* --- Horoscope Details Section (Green Theme, Row Style) --- */
+.horoscope-details-input,
+.horoscope-details-textarea {
+  width: 100px;   /* wider than astrology inputs */
+  padding: 6px 10px;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  font-size: 14px;
+  background: #fff;
+  color: #265371;
+  margin-top: 0;
+  resize: none;
 }
 
-/* */
-
-/* --- Partner Expectation Section (Green Theme) --- */
+/* --- Partner Expectation Section (Green Theme, Row Style) --- */
 .partner-expectation-section {
-  background: #f6fff6;
+  --section-pad: 0px;
+  --pad-start: 0px;
+  --pad-end: 0px;
+  --row-bg-odd: #d6e7ff;
+  --row-bg-even: #ffffff;
+
   border: 2px solid #69af00;
-  border-radius: 10px;
-  padding: 22px 28px 18px 28px;
-  margin: 28px 0 18px 0;
+  border-radius: 4px;
+  padding: 0px var(--section-pad);
   box-shadow: 0 2px 8px #e0f3e0;
+  margin: -20px 2px -5px 2px;
+  background: #ffffff; /* base white */
 }
+
+.partner-expectation-section > .partner-expectation-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1px;
+  flex-wrap: wrap;
+  width: 100%;
+
+  margin-inline-start: calc(-1 * var(--pad-start));
+  margin-inline-end:   calc(-1 * var(--pad-end));
+
+  padding-inline-start: calc(16px + var(--pad-start));
+  padding-inline-end:   calc(16px + var(--pad-end));
+  padding-block: 6px;
+
+  box-sizing: border-box;
+  border-radius: 2px;
+  align-items: center;
+}
+
+/* Alternate row backgrounds */
+.partner-expectation-section > .partner-expectation-row:nth-of-type(odd)  { background: var(--row-bg-odd); }
+.partner-expectation-section > .partner-expectation-row:nth-of-type(even) { background: var(--row-bg-even); }
 
 .partner-expectation-legend {
- background-color: #006633;
-padding: 3px 30px;
-font-weight: bold;
-color: white;
-text-align: center;
-display: block;
-width: 100%;
-border-radius: 0;
-margin-left: -30px;
-margin-right: 30px;
+  background-color: #006633;
+  padding: 4px 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: block;
+  width: 98%;
+  border-radius: 0;
+  margin-left: -2px;
 }
+
+.partner-expectation-label {
+  display: flex;
+  flex-direction: row;   /* 👈 beside input */
+  align-items: center;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 500;
+  min-width: 160px;
+  margin-bottom: 0;
+  gap: 8px;
+}
+
+.partner-expectation-input,
+.partner-expectation-select,
+.partner-expectation-textarea {
+  width: 180px;
+  padding: 6px 10px;
+  border: 1px solid #70a3e2;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+  color: #265371;
+  margin-top: 0;
+}
+
+.partner-expectation-textarea {
+  width: 98%;
+  min-height: 60px;
+  resize: none;
+}
+
+
+/* ---  --- */
 
 /* --- photo section --- */
 .photo-section {
-  background: #f6fff6;
+  background: #ffffff;
   border: 2px solid #69af00;
   border-radius: 10px;
   padding: 22px 28px 18px 28px;
-  margin: 28px 0 18px 0;
-  box-shadow: 0 2px 8px #e0f3e0;
+  margin: -15px 2px -5px 2px;
+  box-shadow: 0 2px 8px #f9eaea;
 }
 
 .photo-section-legend {
@@ -402,29 +542,97 @@ border-radius: 0;
 margin-left: -30px;
 margin-right: 30px;
 }
-
-/* --- scheme details section --- */
-.scheme-details-section {
-  background: #f6fff6;
-  border: 2px solid #69af00;
-  border-radius: 10px;
-  padding: 22px 28px 18px 28px;
-  margin: 28px 0 18px 0;
-  box-shadow: 0 2px 8px #e0f3e0;
+.photo-section-content{
+  display: flex;
+  gap: 80px;
+  flex-wrap: wrap;
+  margin-top: -15px;
+  justify-content: center;
 }
+
+/* --- Scheme Details Section (Astrology-style) --- */
+.scheme-details-section {
+  --section-pad: 0px;
+  --pad-start: 0px;
+  --pad-end: 0px;
+  --row-bg-odd: #d6e7ff;
+  --row-bg-even: #ffffff;
+
+  border: 2px solid #69af00;
+  border-radius: 4px;
+  padding: 0px var(--section-pad);
+  box-shadow: 0 2px 8px #e0f3e0;
+  margin: -20px 2px -5px 2px;
+  background: #ffffff;
+}
+
+.scheme-details-section > .scheme-details-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1px;
+  flex-wrap: wrap;
+  width: 100%;
+
+  margin-inline-start: calc(-1 * var(--pad-start));
+  margin-inline-end:   calc(-1 * var(--pad-end));
+
+  padding-inline-start: calc(16px + var(--pad-start));
+  padding-inline-end:   calc(16px + var(--pad-end));
+  padding-block: 6px;
+
+  box-sizing: border-box;
+  border-radius: 2px;
+  align-items: center;
+}
+
+/* Alternate row colors */
+.scheme-details-section > .scheme-details-row:nth-of-type(odd)  { background: var(--row-bg-odd); }
+.scheme-details-section > .scheme-details-row:nth-of-type(even) { background: var(--row-bg-even); }
 
 .scheme-details-legend {
- background-color: #006633;
-padding: 3px 30px;
-font-weight: bold;
-color: white;
-text-align: center;
-display: block;
-width: 100%;
-border-radius: 0;
-margin-left: -30px;
-margin-right: 30px;
+  background-color: #006633;
+  padding: 4px 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: block;
+  width: 98%;
+  border-radius: 0;
+  margin-left: -2px;
 }
+
+.scheme-details-label {
+  display: flex;
+  flex-direction: row;   /* beside inputs */
+  align-items: center;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 500;
+  min-width: 160px;
+  margin-bottom: 0;
+  gap: 8px;
+}
+
+.scheme-details-input,
+.scheme-details-select {
+  width: 220px;
+  padding: 6px 10px;
+  border: 1px solid #70a3e2;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+  color: #265371;
+}
+
+.scheme-details-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+
+
 /* */
 
 
@@ -739,3 +947,69 @@ a.Grid_Link:hover {
   color: #265371;
   margin-bottom: 20px;
 }
+
+/* === FIX: Mobile should look same as desktop === */
+@media (max-width: 700px) {
+  /* Keep same layout, just allow wrapping */
+  .personal-details-section,
+  .physical-attributes-section,
+  .education-occupation-section,
+  .astrology-details-section,
+  .communication-details-section,
+  .partner-expectation-section,
+  .scheme-details-section {
+    padding: -5px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .personal-details-row,
+  .physical-attributes-row,
+  .education-occupation-row,
+  .astrology-details-row,
+  .communication-details-row,
+  .partner-expectation-row,
+  .scheme-details-row {
+    display: flex;
+    flex-direction: row;   /* 👈 keep side-by-side */
+    gap: 12px;
+    flex-wrap: wrap;      /* 👈 wrap nicely if small screen */
+    margin-bottom: 10px;
+  }
+
+  /* Labels stay same size */
+  .personal-details-label,
+  .physical-attributes-label,
+  .education-occupation-label,
+  .astrology-details-label,
+  .communication-details-label,
+  .partner-expectation-label,
+  .scheme-details-label {
+    flex: 0 0 140px; /* fixed width, adjust if needed */
+    font-weight: 600;
+  }
+
+  /* Inputs take remaining space */
+  .personal-details-input,
+  .personal-details-select,
+  .personal-details-textarea,
+  .physical-attributes-input,
+  .physical-attributes-select,
+  .education-occupation-input,
+  .education-occupation-select,
+  .astrology-details-input,
+  .astrology-details-select,
+  .communication-details-input,
+  .communication-details-textarea,
+  .partner-expectation-input,
+  .partner-expectation-select,
+  .partner-expectation-textarea,
+  .scheme-details-input,
+  .scheme-details-select {
+    flex: 1;
+    width: auto;     /* 👈 don’t shrink too much */
+    min-width: 120px;
+    padding: 6px 10px;
+  }
+}
+/* === END FIX === */

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/styles001.css';
 import '../css/stylsheet.css';
 import Header from './Header';
@@ -6,11 +7,64 @@ import Header from './Header';
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const navigate = useNavigate();
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    alert(`Login submitted for ${username}`);
-    // Perform actual login logic here (API call, validation, etc.)
+    setErrorMsg('');
+
+    if (!username || !password) {
+      setErrorMsg('Enter Member ID / Email and Password');
+      return;
+    }
+
+    try {
+      const isEmail = username.includes('@');
+      let user = null;
+
+      if (!isEmail) {
+        const res = await fetch(`http://localhost:3001/users?id=${encodeURIComponent(username.trim())}`);
+        if (!res.ok) throw new Error(`Fetch failed (${res.status})`);
+        const data = await res.json();
+        user = Array.isArray(data) ? data[0] : data;
+      } else {
+        const res = await fetch('http://localhost:3001/users');
+        if (!res.ok) throw new Error(`Fetch failed (${res.status})`);
+        const data = await res.json();
+        const lower = username.trim().toLowerCase();
+        user = data.find(u =>
+          (u.schemeDetails?.username && String(u.schemeDetails.username).toLowerCase() === lower) ||
+          (u.contactDetails?.Email && String(u.contactDetails.Email).toLowerCase() === lower)
+        );
+      }
+
+      if (!user) {
+        setErrorMsg('User not found');
+        return;
+      }
+
+      const storedPassword = String(
+        user.password ??
+        user.schemeDetails?.password ??
+        user.schemeDetails?.pass ??
+        user.schemeDetails?.pwd ??
+        ''
+      ).trim();
+
+      if (storedPassword !== String(password).trim()) {
+        setErrorMsg('Invalid password');
+        return;
+      }
+
+      // persist and navigate to profile (now route without id in URL)
+      localStorage.setItem('loggedUserId', String(user.id));
+      // navigate to /MyProfile (MyProfile will read id from localStorage)
+      navigate('/MyProfile');
+    } catch (err) {
+      console.error('Login error:', err);
+      setErrorMsg('Login failed. Ensure json-server is running and db.json is valid.');
+    }
   };
 
   return (
@@ -61,7 +115,7 @@ function LoginPage() {
                 value={username}
                 className="TextBox"
                 onChange={(e) => setUsername(e.target.value)}
-                style={{ width: '100%', padding: '5px' }}
+                style={{ width: '100%', padding: '5px', fontSize: '16px' }}
               />
             </div>
             <div style={{ marginBottom: '15px' }}>
@@ -72,14 +126,17 @@ function LoginPage() {
                 value={password}
                 className="TextBox"
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ width: '100%', padding: '5px' }}
+                style={{ width: '100%', padding: '5px', fontSize: '16px' }}
               />
               <div style={{ textAlign: 'right', marginTop: '5px' }}>
                 <a href="#forgot" style={{ fontSize: '12px', color: 'red' }}>Forgot Password?</a>
               </div>
             </div>
+
+            {/* Error Message */}
+            {errorMsg && <div style={{ color: 'red', marginBottom: '10px' }}>{errorMsg}</div>}
+
             <div style={{ textAlign: 'right' }}>
-              {/* Replace image with actual button if needed */}
               <button type="submit" style={{
                 backgroundColor: '#990000',
                 color: 'white',

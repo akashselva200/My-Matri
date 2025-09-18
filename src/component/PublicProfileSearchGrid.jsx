@@ -26,22 +26,26 @@ const SORT_OPTIONS = [
 ];
 const AGE_OPTIONS = Array.from({ length: 28 }, (_, i) => 18 + i); // 18-45
 
-function SearchForm({ filters, setFilters, onSearch }) {
-  // controlled form
+function SearchForm({ formInputs, setFormInputs, setFilters, onSearch }) {
+  // Handles all dropdown and input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFilters(f => ({
+    setFormInputs(f => ({
       ...f,
       [name]: value
     }));
   };
 
+  // Handles form submit (Go button)
   const handleGo = (e) => {
     e.preventDefault();
+    // Only update filters on submit
+    setFilters(formInputs);
     onSearch();
   };
 
   return (
+   
     <div className="Header-container" >
       <Header />
       <div className="advanced-search">
@@ -59,7 +63,7 @@ function SearchForm({ filters, setFilters, onSearch }) {
                         <td className="gender-select">
                           <label>
                             Select by : Gender{' '}
-                            <select name="gender" value={filters.gender} onChange={handleChange}>
+                            <select name="gender" value={formInputs.gender} onChange={handleChange}>
                               {GENDER_OPTIONS.map(opt => (
                                 <option key={opt} value={opt === 'Any' ? '' : opt}>{opt}</option>
                               ))}
@@ -69,7 +73,7 @@ function SearchForm({ filters, setFilters, onSearch }) {
                         <td className="language-select">
                           <label>
                             Language{' '}
-                            <select name="language" value={filters.language} onChange={handleChange}>
+                            <select name="language" value={formInputs.language} onChange={handleChange}>
                               {LANGUAGE_OPTIONS.map(opt => (
                                 <option key={opt} value={opt === 'Any' ? '' : opt}>{opt}</option>
                               ))}
@@ -79,7 +83,7 @@ function SearchForm({ filters, setFilters, onSearch }) {
                         <td className="caste-select">
                           <label>
                             Caste:{' '}
-                            <select name="caste" value={filters.caste} onChange={handleChange}>
+                            <select name="caste" value={formInputs.caste} onChange={handleChange}>
                               {CASTE_OPTIONS.map(opt => (
                                 <option key={opt} value={opt === 'Any' ? '' : opt}>{opt}</option>
                               ))}
@@ -89,7 +93,7 @@ function SearchForm({ filters, setFilters, onSearch }) {
                         <td className="subcaste-select">
                           <label>
                             Subcaste:{' '}
-                            <select name="subcaste" value={filters.subcaste} onChange={handleChange}>
+                            <select name="subcaste" value={formInputs.subcaste} onChange={handleChange}>
                               {SUBCASTE_OPTIONS.map(opt => (
                                 <option key={opt} value={opt === 'Any' ? '' : opt}>{opt}</option>
                               ))}
@@ -109,7 +113,7 @@ function SearchForm({ filters, setFilters, onSearch }) {
                         <td className="sort-by-select">
                           <label>
                             Sort by :
-                            <select name="sortBy" value={filters.sortBy} onChange={handleChange}>
+                            <select name="sortBy" value={formInputs.sortBy} onChange={handleChange}>
                               {SORT_OPTIONS.map((o, i) => (
                                 <option key={i} value={o.value}>{o.label}</option>
                               ))}
@@ -119,13 +123,13 @@ function SearchForm({ filters, setFilters, onSearch }) {
                         <td className="age-select">
                           <label>
                             Age from{' '}
-                            <select name="ageFrom" value={filters.ageFrom} onChange={handleChange}>
+                            <select name="ageFrom" value={formInputs.ageFrom} onChange={handleChange}>
                               <option value="">Any</option>
                               {AGE_OPTIONS.map(val => <option key={val} value={val}>{val}</option>)}
                             </select>
                           </label>
                           &nbsp; To{' '}
-                          <select name="ageTo" value={filters.ageTo} onChange={handleChange}>
+                          <select name="ageTo" value={formInputs.ageTo} onChange={handleChange}>
                             <option value="">Any</option>
                             {AGE_OPTIONS.map(val => <option key={val} value={val}>{val}</option>)}
                           </select>
@@ -133,7 +137,7 @@ function SearchForm({ filters, setFilters, onSearch }) {
                         <td className="marital-status-select">
                           <label>
                             Marital Status
-                            <select name="maritalStatus" value={filters.maritalStatus} onChange={handleChange}>
+                            <select name="maritalStatus" value={formInputs.maritalStatus} onChange={handleChange}>
                               {MARITAL_OPTIONS.map(o =>
                                 <option key={o.label} value={o.value}>{o.label}</option>
                               )}
@@ -141,15 +145,23 @@ function SearchForm({ filters, setFilters, onSearch }) {
                           </label>
                         </td>
                         <td className="search-button">
-                          <input
-                            type="image"
-                            name="Cntrl_Btn_Go"
-                            id="Cntrl_Btn_Go"
-                            src="images/SearchGo.jpg"
-                            alt="Go"
-                            style={{ width: 40 }}
-                            onClick={handleGo}
-                          />
+                          <button
+                            type="submit"
+                            style={{
+                              width: 40,
+                              height: 40,
+                              background: "none",
+                              border: "none",
+                              padding: 0,
+                              cursor: "pointer"
+                            }}
+                          >
+                            <img
+                              src="images/SearchGo.jpg"
+                              alt="Go"
+                              style={{ width: 40 }}
+                            />
+                          </button>
                         </td>
                       </tr>
                     </tbody>
@@ -161,6 +173,7 @@ function SearchForm({ filters, setFilters, onSearch }) {
         </form>
       </div>
     </div>
+   
   );
 }
 
@@ -238,7 +251,7 @@ function ProfileGrid({ profiles }) {
                     src={getProfileImage(profile)}
                     alt="No Image"
                     onError={e => (e.target.src = '/photos/default.jpg')}
-                    style={{ maxWidth: 100, height: 155, objectFit: "cover" }}
+                    style={{ maxWidth: 100, height: 'auto', objectFit: "cover" }}
                   />
                 </Link>
               </td>
@@ -265,6 +278,7 @@ const PublicProfileSearchGrid = () => {
     maritalStatus: '',
     sortBy: 'desc' // or 'asc'
   });
+  const [formInputs, setFormInputs] = useState(filters);
 
   // Utility to get age from dateOfBirth (make sure this exists in your code)
   const getAge = (dateString) => {
@@ -296,10 +310,8 @@ const PublicProfileSearchGrid = () => {
     });
 
     if (filters.sortBy === 'asc') {
-      // Sort ascending by id using localeCompare for string IDs
       result = result.slice().sort((a, b) => a.id.localeCompare(b.id));
     } else {
-      // Sort descending by id using localeCompare for string IDs
       result = result.slice().sort((a, b) => b.id.localeCompare(a.id));
     }
 
@@ -307,7 +319,6 @@ const PublicProfileSearchGrid = () => {
   };
 
   useEffect(() => {
-    // Fetch all users from json-server
     fetch('http://localhost:3001/users')
       .then(res => res.json())
       .then(data => setAllProfiles(data))
@@ -316,14 +327,19 @@ const PublicProfileSearchGrid = () => {
 
   useEffect(() => {
     filterProfiles();
-  }, [filters, allProfiles]); // whenever allProfiles or filters change, refilter
+  }, [filters, allProfiles]);
 
   // You can get params if needed
   const { id } = useParams();
 
   return (
     <div className="page-container">
-      <SearchForm filters={filters} setFilters={setFilters} onSearch={filterProfiles} />
+      <SearchForm
+        formInputs={formInputs}
+        setFormInputs={setFormInputs}
+        setFilters={setFilters} // Pass setFilters here
+        onSearch={filterProfiles}
+      />
       <ProfileGrid profiles={filteredProfiles} />
     </div>
   );

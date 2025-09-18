@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import '../css/NewRegistration.css'; // Corrected CSS import path
 import Header from './Header';
 import NoProfile from '../css/images/NoProfile.jpg';
+import "../css/terms.css"; // include CSS for terms popup
 
 const PLACEHOLDER = NoProfile;
 const initialFormState = {
-
+  registrationDate: "",
+  ExpiryDate: "",
   personalDetails: {
     txtName: "",
     gender: "-Select-",
@@ -129,7 +131,7 @@ const initialFormState = {
     password: "",
     acceptTerms: false
   }
-};
+}
 
 const brotherSisterOptions = [
   { label: " ", value: " " },
@@ -394,6 +396,9 @@ export default function New_Registration() {
     document.getElementById(`photo-input-${index}`).value = "";
   };
 
+// term and conditions popup
+  // TermsAndConditions component logic is now merged into New_Registration
+  const [showPopup, setShowPopup] = useState(false);
 
   return (
     <div className="new-registration">
@@ -404,33 +409,34 @@ export default function New_Registration() {
       <form
         className="registration-form"
         style={{
-          maxWidth: 960,
+          maxWidth: 1100,
           background: "#e7ebf7",
           margin: "auto",
-          padding: 16,
+          padding: "0px 20px 0px 20px",
           boxShadow: "0px 0px 12px #ccc"
         }}   onSubmit={handleSubmit} /* <-- add this! */
       >
-        <h2 style={{ color: "#69AF00", textAlign: "center" }}>
+        <h2 style={{ color: "#69AF00", textAlign: "left", fontWeight: "bold" }}>
           <i>New Registration</i>
         </h2>
 
       {/* PERSONAL AND FAMILY DETAILS */}
       <fieldset className="personal-details-section">
-  <legend className="personal-details-legend"><b>Personal and Family Details</b></legend>
+  <legend className="personal-details-legend" ><b>Personal and Family Details</b></legend>
   <div className="personal-details-row">
-    <label className="personal-details-label">
-      Name*
+    <label  style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "100px", top:"1px" }}>
+      Name<span style={{ color: "red" }}>* </span>:&nbsp;
       <input
         className="personal-details-input"
         name="personalDetails.txtName"
         value={form.personalDetails.txtName}
         onChange={handleChange}
-        required
+         style={{ width: 153 }}
+        required 
       />
     </label>
-    <label className="personal-details-label">
-      Gender*
+    <label  style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "180px", top:"1px" }}>
+      Gender <span style={{ color: "red" }}>* </span>:&nbsp;
       <select
         className="personal-details-select"
         name="personalDetails.gender"
@@ -443,44 +449,75 @@ export default function New_Registration() {
         <option value="Female">Female</option>
       </select>
     </label>
-          <label>
-            Date Of Birth*
-            <input type="date" name="personalDetails.dateOfBirth" value={form.personalDetails.dateOfBirth} onChange={handleChange} style={{ width: 150 }} min="0"
-              max="12" placeholder="Hour" required />
+          <label  style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "290px", top: "1px" }}>
+            Date Of Birth<span style={{ color: "red" }}>* </span>:&nbsp;
+            <input type="date"
+             name="personalDetails.dateOfBirth" 
+             className="personal-details-input"
+             value={form.personalDetails.dateOfBirth} onChange={handleChange} 
+             style={{ width: 150 }} 
+              min="0"
+              max="12" 
+              placeholder="Hour" 
+              required />
           </label>
-        </div>
+  </div>
 
-        <div style={{ display: "flex", gap: 10, marginBottom: 8 }}>
-          <label>
-            Time of Birth:&nbsp;
-            <select name="personalDetails.timeOfBirth.hour" value={form.personalDetails.timeOfBirth.hour} onChange={handleChange}>
+        {/* Time of Birth, Place of Birth, Nativity */}
+      <div className="personal-details-row">
+          <label  style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "48px", top: "-1px" }}>
+            Time of Birth<span style={{ color: "red" }}> * </span> :&nbsp;
+            <select className="personal-select" name="personalDetails.timeOfBirth.hour" value={form.personalDetails.timeOfBirth.hour} onChange={handleChange} required>
               <option value=" ">&nbsp;Hr</option>
               {[...Array(13).keys()].map(i =>
                 <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
               )}
             </select>
-            <select name="personalDetails.timeOfBirth.minute" value={form.personalDetails.timeOfBirth.minute} onChange={handleChange}>
+            <select className="personal-select" name="personalDetails.timeOfBirth.minute" value={form.personalDetails.timeOfBirth.minute} onChange={handleChange} required>
               <option value=" ">&nbsp;Min </option>
               {[...Array(60).keys()].map(i =>
                 <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
               )}
             </select>
-            <select name="personalDetails.timeOfBirth.period" value={form.personalDetails.timeOfBirth.period} onChange={handleChange}>
+            <select className="personal-select" name="personalDetails.timeOfBirth.period" value={form.personalDetails.timeOfBirth.period} onChange={handleChange} required>
               <option defaultValue={""}>Select</option>
               <option value="AM">AM</option>
               <option value="PM">PM</option>
             </select>
           </label>
         {/* Place of Birth */}
-          <label>Place Of Birth <input type="text" name="personalDetails.placeOfBirth" value={form.personalDetails.placeOfBirth} onChange={handleChange} style={{ width: 150 }} /></label>
+          <label style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "91px", top: "0px" }}>
+            &nbsp;Place Of Birth <br></br>
+          (Town/District)&nbsp;&nbsp;<a style={{ position: "relative", top: "-10px" }}>:</a>&nbsp;
+          <input type="text"
+           className="personal-details-input"
+           name="personalDetails.placeOfBirth" 
+           value={form.personalDetails.placeOfBirth} 
+           onChange={handleChange} 
+           style={{ width: 130,  position: "relative", top: "-10px" }} />
+           </label>
         {/* Nativity */}
-          <label>Own House - Nativity <input type="text" name="personalDetails.nativity" value={form.personalDetails.nativity} onChange={handleChange} style={{ width: 150 }} /></label>
-        </div>
-        {/* Mother Tongue */}
+          <label style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "127px", top: "1px" }}>
+           <a> Nativity &nbsp;<br></br>
+            (Town & District)</a>&nbsp;&nbsp;<a style={{ position: "relative", top: "-8px" }}>:</a>&nbsp;
+            <input type="text" 
+            name="personalDetails.nativity" 
+            className="personal-details-input"
+            value={form.personalDetails.nativity} 
+            onChange={handleChange}
+            style={{ width: 150, position: "relative", top: "-10px" }} /></label>
+      </div>
+        {/* Mother Tongue and Marital Status */}
+        <div className="personal-details-row">
         <div style={{ display: "flex", gap: 10, marginBottom: 8 }}>
-          <label>
-            Mother Tongue*
-            <select type="text" name="personalDetails.motherTongue" value={form.personalDetails.motherTongue} onChange={handleChange} style={{ width: 150 }}>
+          <label style={{flexDirection: "row", alignItems: "center", position: "relative", left: "36px", top: "4px" }}>
+            Mother Tongue<span style={{ color: "red" }}>* </span>:&nbsp;
+            <select 
+            type="text" 
+            name="personalDetails.motherTongue" 
+            className="personal-details-input"
+            value={form.personalDetails.motherTongue} onChange={handleChange} style={{ width: 155 }} 
+            required>
               <option value="0">-Select-</option>
               <option value="Malayalam">Malayalam</option>
               <option value="Tamil">Tamil</option>
@@ -489,23 +526,37 @@ export default function New_Registration() {
             </select>
           </label>
         {/* Marital Status */}
-          <label>
-            Marital Status
-            <select name="personalDetails.maritalStatus" value={form.personalDetails.maritalStatus} onChange={handleChange} style={{ width: 148 }}>
+          <label style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "97px", top:"4px" }}>
+            Marital Status<span style={{ color: "red" }}>* </span>:&nbsp;
+            <select 
+            name="personalDetails.maritalStatus" 
+            className="personal-details-input"
+            value={form.personalDetails.maritalStatus} onChange={handleChange} 
+            style={{ width: 148 }}>
               <option value="Unmarried">Unmarried</option>
               <option value="Widow/Widower">Widow/Widower</option>
               <option value="Divorce">Divorce</option>
             </select>
           </label>
         </div>
-        {/* Father's Name */}
-        <div style={{ display: "flex", gap: 10, marginBottom: 8 }}>
-          <label>Father&apos;s Name<input type="text" name="personalDetails.fatherName" value={form.personalDetails.fatherName} onChange={handleChange} style={{ width: 150 }} /></label>
-          <label style={{ display: "flex", gap: 7, alignItems: "center" }}>
-            Father&apos;s Alive
+        </div>
+        {/* Father's Name , Father's Alive, Father's Job */}
+        <div className="personal-details-row">
+        <div style={{ display: "flex", gap: 10, marginBottom: 8, position: "relative", left: "37px", top:"4px" }}>
+          <label>Father&apos;s Name<span style={{ color: "red" }}>* </span>:&nbsp;
+          <input type="text" 
+          name="personalDetails.fatherName" 
+          className="personal-details-input"
+          value={form.personalDetails.fatherName} onChange={handleChange} 
+          required
+          style={{ width: 135 }} />
+          </label>
+          <label style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "65px", top: "0px" }}>
+            Father&apos;s Alive   &nbsp;:&nbsp;&nbsp;
             <select
               name="personalDetails.fatherAlive"
               value={form.personalDetails.fatherAlive}
+              className="personal-details-input"
               onChange={handleChange}
             >
               <option defaultValue={""}>-Select-</option>
@@ -515,17 +566,33 @@ export default function New_Registration() {
           
           </label>
           {/* Father's Job */}
-          <label>Father's Job <input type="text" name="personalDetails.fatherJob" value={form.personalDetails.fatherJob} onChange={handleChange} style={{ width: 150 }} /></label>
+          <label style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "150px", top: "0px" }}>
+            Father's Job :&nbsp;<input 
+            type="text" 
+          name="personalDetails.fatherJob" 
+          className="personal-details-input"
+          value={form.personalDetails.fatherJob} onChange={handleChange} 
+          style={{ width: 150 }} />
+          </label>
         </div>
-         {/* Mother's Name */}
-        <div style={{ display: "flex", gap: 10, marginBottom: 8 }}>
-          <label>Mother&apos;s Name <input type="text" name="personalDetails.motherName" value={form.personalDetails.motherName} onChange={handleChange} style={{ width: 150 }} /></label>
+        </div>
+         {/* Mother's Name , Mother's Alive, Mother's Job */}
+         <div className="personal-details-row">
+        <div style={{ display: "flex", gap: 10, marginBottom: 8, position: "relative",  top:"4px", left:"35px" }}>
+          <label>Mother&apos;s Name &nbsp;:&nbsp;
+          <input 
+          type="text" 
+          name="personalDetails.motherName"
+          className="personal-details-input" 
+          value={form.personalDetails.motherName} onChange={handleChange} 
+          style={{ width: 134 }} />
+          </label>
          {/* Mother Alive */}
-          <label style={{ display: "flex", gap: 7, alignItems: "center" }}>
-            Mother's Alive
-            <select
+          <label style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "67px"}}>
+            Mother's Alive : &nbsp;<select
               name="personalDetails.motherAlive"
               value={form.personalDetails.motherAlive}
+              className="personal-details-input"
               onChange={handleChange}
             >
               <option defaultValue={""}>-Select-</option>
@@ -533,67 +600,105 @@ export default function New_Registration() {
               <option value="0">No</option>
             </select>
           </label>
-          <label>Mother's Job <input  type="text" name="personalDetails.motherJob" value={form.personalDetails.motherJob} onChange={handleChange} style={{ width: 150 }} /></label>
+          <label style={{ flexDirection: "row", alignItems: "center", position: "relative", left: "148px"}}>
+            Mother's Job :&nbsp;
+            <input  
+            type="text" 
+            name="personalDetails.motherJob" 
+            className="personal-details-input"
+            value={form.personalDetails.motherJob} 
+            onChange={handleChange} 
+            style={{ width: 150 }} />
+            </label>
+        </div>
         </div>
 
         {/* Brothers and Sisters Table */}
-        <table style={{ margin: "20px 0", border: "1px solid #555", borderCollapse: "collapse" }}>
+        <div className="personal-details-row">
+        <table style={{ margin: "10px 220px", border: "2px solid #2f2e2eff", borderCollapse: "collapse" , backgroundColor:"#d3e6faff" }}>
           <thead>
             <tr>
-              <th style={{ border: "1px solid #555" }}>Relationship</th>
-              <th style={{ border: "1px solid #555" }}>Elder Brother</th>
-              <th style={{ border: "1px solid #555" }}>Younger Brother</th>
-              <th style={{ border: "1px solid #555" }}>Elder Sister</th>
-              <th style={{ border: "1px solid #555" }}>Younger Sister</th>
+              <th style={{ border: "2px solid #555", fontSize: "18px", color:'#1b7a2eff', fontWeight:"bold" }}>Relationship</th>
+              <th style={{ border: "2px solid #555", fontSize: "18px", color:'#088621ff', fontWeight:"bold" }}>Elder<br></br> Brother</th>
+              <th style={{ border: "2px solid #555", fontSize: "18px", color:'#088621ff', fontWeight:"bold" }}>Younger<br></br> Brother</th>
+              <th style={{ border: "2px solid #555", fontSize: "18px", color:'#088621ff', fontWeight:"bold" }}>Elder Sister</th>
+              <th style={{ border: "2px solid #555", fontSize: "18px", color:'#088621ff', fontWeight:"bold" }}>Younger<br></br> Sister</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ border: "1px solid #555" }}>Married</td>
-              <td style={{ border: "1px solid #555" }}>
+              <td style={{ border: "2px solid #555", fontSize: "18px"  }}> &nbsp; &nbsp; &nbsp;Married</td>
+              <td style={{ border: "2px solid #555" }}>
                 <select name="personalDetails.siblings.married.elderBrothers" value={form.personalDetails.siblings.married.elderBrothers} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
               </td>
-              <td style={{ border: "1px solid #555" }}>
-                <select name="personalDetails.siblings.married.youngerBrothers" value={form.personalDetails.siblings.married.youngerBrothers} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
+              <td style={{ border: "2px solid #555" }}>
+                <select style={{ width: 125 }} name="personalDetails.siblings.married.youngerBrothers" value={form.personalDetails.siblings.married.youngerBrothers} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
               </td>
-              <td style={{ border: "1px solid #555" }}>
+              <td style={{ border: "2px solid #555" }}>
                 <select name="personalDetails.siblings.married.elderSisters" value={form.personalDetails.siblings.married.elderSisters} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
               </td>
-              <td style={{ border: "1px solid #555" }}>
-                <select name="personalDetails.siblings.married.youngerSisters" value={form.personalDetails.siblings.married.youngerSisters} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
+              <td style={{ border: "2px solid #555" }}>
+                <select style={{ width: 110 }} name="personalDetails.siblings.married.youngerSisters" value={form.personalDetails.siblings.married.youngerSisters} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
               </td>
             </tr>
             <tr>
-              <td style={{ border: "1px solid #555" }}>UnMarried</td>
-              <td style={{ border: "1px solid #555"}}>
+              <td style={{ border: "2px solid #555", fontSize: "18px" }}> &nbsp; &nbsp;UnMarried</td>
+              <td style={{ border: "2px solid #555" }}>
                 <select name="personalDetails.siblings.unmarried.elderBrothers" value={form.personalDetails.siblings.unmarried.elderBrothers} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
               </td>
-              <td style={{ border: "1px solid #555" }}>
-                <select name="personalDetails.siblings.unmarried.youngerBrothers" value={form.personalDetails.siblings.unmarried.youngerBrothers} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
+              <td style={{ border: "2px solid #555" }}>
+                <select style={{ width: 125 }} name="personalDetails.siblings.unmarried.youngerBrothers" value={form.personalDetails.siblings.unmarried.youngerBrothers} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
               </td>
-              <td style={{ border: "1px solid #555" }}>
+              <td style={{ border: "2px solid #555" }}>
                 <select name="personalDetails.siblings.unmarried.elderSisters" value={form.personalDetails.siblings.unmarried.elderSisters} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
               </td>
-              <td style={{ border: "1px solid #555" }}>
-                <select name="personalDetails.siblings.unmarried.youngerSisters" value={form.personalDetails.siblings.unmarried.youngerSisters} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
+              <td style={{ border: "2px solid #555" }}>
+                <select style={{ width: 110 }} name="personalDetails.siblings.unmarried.youngerSisters" value={form.personalDetails.siblings.unmarried.youngerSisters} onChange={handleChange}>{brotherSisterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
               </td>
             </tr>
           </tbody>
         </table>
-
-        <div style={{ marginBottom: 8 }}>
-          <label>Any Other Details&nbsp;
-            <textarea name="personalDetails.AnyOtherDetails" value={form.personalDetails.AnyOtherDetails} onChange={handleChange} rows={3} style={{ width: 400 }} />
-          </label>
         </div>
+
+        {/* Any Other Details */}
+<div className="personal-details-row">
+    <div
+        style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center", // vertically center
+        gap: "10px", // spacing between label and textarea
+        position: "relative",
+        left: "5px",
+        marginBottom: "8px"
+        }}>
+       <label
+       htmlFor="anyOtherDetails"
+       style={{ fontSize: "17px", whiteSpace: "nowrap" }}>
+       <a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Any Other Details&nbsp; <br></br>
+       &nbsp;( Talents, Acheivements, Likes,&nbsp; &nbsp;: <br></br> 
+       Visa Status, Family details, God <br></br>etc., )</a>
+       </label>
+
+       <textarea
+      id="anyOtherDetails"
+      name="personalDetails.AnyOtherDetails"
+      className="personal-details-textarea"
+      value={form.personalDetails.AnyOtherDetails}
+      onChange={handleChange}
+      rows={3}
+      style={{ width: 430 }}/>
+    </div>
+</div>
+
       </fieldset>
 
       {/* PHYSICAL ATTRIBUTES */}
       <fieldset className="physical-attributes-section">
   <legend className="physical-attributes-legend"><b>Physical Attributes</b></legend>
-  <div className="physical-attributes-row">
-    <label className="physical-attributes-label">
-      Height
+  <div className="physical-attributes-row" >
+    <label className="physical-attributes-label" style={{ position: "relative", left: "150px", fontSize: "15px" } }>
+      Height :
       <select
         className="physical-attributes-select"
         name="physicalAttributes.height"
@@ -605,8 +710,8 @@ export default function New_Registration() {
         ))}
       </select>
     </label>
-    <label className="physical-attributes-label">
-      Weight
+    <label className="physical-attributes-label" style={{ position: "relative", left: "200px", fontSize: "15px" } }>
+      Weight :
       <select
         className="physical-attributes-select"
         name="physicalAttributes.weight"
@@ -618,8 +723,8 @@ export default function New_Registration() {
         ))}
       </select>
     </label>
-    <label className="physical-attributes-label">
-      Blood Group
+    <label className="physical-attributes-label" style={{ position: "relative", left: "240px", fontSize: "15px" } }>
+      Blood Group :
       <select
         className="physical-attributes-select"
         name="physicalAttributes.bloodGroup"
@@ -632,20 +737,24 @@ export default function New_Registration() {
       </select>
     </label>
   </div>
+ 
+        <div className="physical-attributes-row">
         <div style={{ display: "flex", gap: 10, marginBottom: 8 }}>
-          <label>Diet&nbsp;
+          <label style={{ position: "relative", left: "150px" } }>Diet&nbsp;:&nbsp;
             <input type="radio" name="physicalAttributes.diet" value="Vegetarian" checked={form.physicalAttributes.diet === "Vegetarian"} onChange={handleChange} />Vegetarian
             <input type="radio" name="physicalAttributes.diet" value="NonVeg" checked={form.physicalAttributes.diet === "NonVeg"} onChange={handleChange} />Non-Vegetarian
             <input type="radio" name="physicalAttributes.diet" value="Eggetarian" checked={form.physicalAttributes.diet === "Eggetarian"} onChange={handleChange} />Eggetarian
           </label>
-          <label>Disability (If any)&nbsp;
+          <label style={{ position: "relative", left: "200px" } }>&nbsp;&nbsp;Disability (If any)&nbsp;:&nbsp;
             <input type="radio" name="physicalAttributes.physicalStatus" value="No" checked={form.physicalAttributes.physicalStatus === "No"} onChange={handleChange} />No
             <input type="radio" name="physicalAttributes.physicalStatus" value="PhysicallyChallenged" checked={form.physicalAttributes.physicalStatus === "Physically Challenged"} onChange={handleChange} />Yes
           </label>
         </div>
+        </div>
+        <div className="physical-attributes-row">
         <div style={{ marginBottom: 8 }}>
-          <label>
-            Complexion&nbsp;
+          <label style={{ position: "relative", left: "92px" } }>
+            Complexion&nbsp;:&nbsp;
             <input type="radio" name="physicalAttributes.complexion" value="VeryFair" checked={form.physicalAttributes.complexion === "VeryFair"} onChange={handleChange} />Very Fair
             <input type="radio" name="physicalAttributes.complexion" value="Fair" checked={form.physicalAttributes.complexion === "Fair"} onChange={handleChange} />Fair
             <input type="radio" name="physicalAttributes.complexion" value="Wheatish" checked={form.physicalAttributes.complexion === "Wheatish"} onChange={handleChange} />Wheatish
@@ -653,14 +762,15 @@ export default function New_Registration() {
             <input type="radio" name="physicalAttributes.complexion" value="Dark" checked={form.physicalAttributes.complexion === "Dark"} onChange={handleChange} />Dark
           </label>
         </div>
+        </div>
       </fieldset>
 
       {/* EDUCATION, OCCUPATION */}
       <fieldset className="education-occupation-section">
   <legend className="education-occupation-legend"><b>Education & Occupation Details</b></legend>
   <div className="education-occupation-row">
-    <label className="education-occupation-label">
-      Qualification
+    <label className="education-occupation-label" style={{ position: "relative", left: "60px" } }>
+      Qualification :
       <input
         className="education-occupation-input"
         name="educationOccupation.qualification"
@@ -668,8 +778,8 @@ export default function New_Registration() {
         onChange={handleChange}
       />
     </label>
-    <label className="education-occupation-label">
-      Job
+    <label className="education-occupation-label" style={{ position: "relative", left: "120px" } }>
+      Job :
       <input
         className="education-occupation-input"
         name="educationOccupation.job"
@@ -677,8 +787,8 @@ export default function New_Registration() {
         onChange={handleChange}
       />
     </label>
-    <label className="education-occupation-label">
-      Place Of Job
+    <label className="education-occupation-label" style={{ position: "relative", left: "185px" } }>
+      Place Of Job :
       <input
         className="education-occupation-input"
         name="educationOccupation.placeOfJob"
@@ -687,9 +797,9 @@ export default function New_Registration() {
       />
     </label>
   </div>
-  <div>
-    <label className="education-occupation-label">
-      Income Per Month
+  <div className="education-occupation-row">
+    <label className="education-occupation-label" style={{ position: "relative", left: "20px" } }>
+      Income Per Month :
       <input
         className="education-occupation-input"
         name="educationOccupation.income"
@@ -704,8 +814,8 @@ export default function New_Registration() {
     <fieldset className="astrology-details-section">
   <legend className="astrology-details-legend"><b>Astrology Details</b></legend>
   <div className="astrology-details-row">
-    <label className="astrology-details-label">
-      Religion
+    <label className="astrology-details-label" style={{ position: "relative", left: "90px", fontSize: "15px" }}>
+      Religion :&nbsp;
       <input
         className="astrology-details-input"
         name="astrologyDetails.religion"
@@ -713,8 +823,8 @@ export default function New_Registration() {
         onChange={handleChange}
       />
     </label>
-    <label className="astrology-details-label">
-      Caste
+    <label className="astrology-details-label" style={{ position: "relative", left: "140px", fontSize: "15px" }}>
+      Caste :&nbsp;
       <input
         className="astrology-details-input"
         name="astrologyDetails.caste"
@@ -722,8 +832,8 @@ export default function New_Registration() {
         onChange={handleChange}
       />
     </label>
-    <label className="astrology-details-label">
-      Subcaste
+    <label className="astrology-details-label" style={{ position: "relative", left: "230px", fontSize: "15px" }}>
+      Subcaste :&nbsp;
       <input
         className="astrology-details-input"
         name="astrologyDetails.subcaste"
@@ -733,9 +843,11 @@ export default function New_Registration() {
     </label>
         </div>
         <div style={{ display: "flex", gap: 10, marginBottom: 8 }}>
+        <div className="astrology-details-row"></div>
 
-          <label>Star &nbsp;<select
+          <label style={{ position: "relative", left: "120px" }}>Star : &nbsp;&nbsp;<select
           name="astrologyDetails.star"
+          className="astrology-details-input"
           value={form.astrologyDetails.star}
           onChange={handleChange}
           style={{ width: 150 }}
@@ -746,26 +858,11 @@ export default function New_Registration() {
         </select>
           </label>
 
-          <label style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          Padam:
-          <select
-           name="astrologyDetails.padam"
-             value={form.astrologyDetails.padam || "0"}
-               onChange={handleChange}
-               style={{ width: 153 }}>
-               <option value="0">-Select Padam--</option>
-               <option value="1">1</option>
-               <option value="2">2</option>
-               <option value="3">3</option>
-               <option value="4">4</option>
-           </select>
-          </label>
-
-
-          <label style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          Raasi / Moon Sign:
+          <label style={{ display: 'flex', gap: 2, alignItems: 'center', position: "relative", left: "132px" }}>
+          Raasi / Moon Sign :
           <select
            name="astrologyDetails.raasi"
+           className="astrology-details-input"
              value={form.astrologyDetails.raasi || "0"}
                 onChange={handleChange}
                 style={{ width: 150 }}>
@@ -785,9 +882,31 @@ export default function New_Registration() {
            </select>
           </label>
 
-          
-          <label>Gothram <input name="astrologyDetails.gothram" value={form.astrologyDetails.gothram} onChange={handleChange} style={{ width: 150 }} /></label>
-        </div>
+          <label style={{ display: 'flex', gap: 8, alignItems: 'center', position: "relative", left: "235px" }}>
+          Padam :&nbsp;<select
+           name="astrologyDetails.padam"
+           className="astrology-details-input"
+             value={form.astrologyDetails.padam || "0"}
+               onChange={handleChange}
+               style={{ width: 153 }}>
+               <option value="0">-Select Padam--</option>
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+           </select>
+          </label>
+          </div>
+          <div className="astrology-details-row" >
+            <label style={{ position: "relative", left: "80px" }}>Gothram :&nbsp; &nbsp;<input
+              name="astrologyDetails.gothram"
+              className="astrology-details-input"
+              value={form.astrologyDetails.gothram}
+              onChange={handleChange}
+                style={{ width: 150 }}
+              />
+            </label>
+          </div>
       </fieldset>
 
      
@@ -818,7 +937,7 @@ export default function New_Registration() {
     <label className="communication-details-label">
       Contact Person :
       <input
-        className="communication-details-input"
+        className="communication-details-"
         name="contactDetails.contactPerson"
         type="text"
         style={{ textTransform: "capitalize" }}
@@ -828,8 +947,8 @@ export default function New_Registration() {
     </label>
   </div>
   <div className="communication-details-row">
-    <label className="communication-details-label" style={{ color: "red" }}>
-      * Contact Number:
+    <label className="communication-details-label" style={{ color: "red", position: "relative", left: "10px" }}>
+      * Contact Number :&nbsp;
       <input
         className="communication-details-input"
         name="contactDetails.mobileNumber"
@@ -846,8 +965,8 @@ export default function New_Registration() {
      
 
 {/* Horoscope Details */}
-   
- <table style={{ width: '100%' }}>
+
+ <table style={{ width: '99.7%', border: '2px solid #006633', borderCollapse: 'collapse', margin: '-2px -2px -10px 1.7px', marginBottom: '20px' }}>
       <tbody>
         <tr>
           <td
@@ -867,16 +986,18 @@ export default function New_Registration() {
             <table width="100%" cellPadding="5" cellSpacing="0">
               <tbody>
                 <tr>
-                  <td align="center" style={{ borderBottom: '1px solid rgb(83, 184, 196)' }}>
-                    <div style={{ textAlign: 'center' }}>
-                      Dasa Balance :
-                      <input type="text" className="TextBox" name="astrologyDetails.horoscopeChart.balance.dasa" value={form.astrologyDetails.horoscopeChart.balance.dasa || ""}    onChange={handleChange}/>
-                      &nbsp;Dasa&nbsp;&nbsp;
-                      <input type="text" className="TextBox" name="astrologyDetails.horoscopeChart.balance.years"  style={{ width: '60px' }} value={form.astrologyDetails.horoscopeChart.balance.years || ""}    onChange={handleChange} />
+                  <td align="center" >
+                    <div style={{ textAlign: 'center', position: 'relative', top: '5px', fontSize: '15px', left: '-10px' }}>
+                      Dasa Balance : &nbsp;
+                      <input type="text" className="horoscope-details-input"
+                      
+                      name="astrologyDetails.horoscopeChart.balance.dasa" value={form.astrologyDetails.horoscopeChart.balance.dasa || ""}    onChange={handleChange}/>
+                      &nbsp;Dasa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input type="text" className="horoscope-details-input" name="astrologyDetails.horoscopeChart.balance.years"  style={{ width: '60px' }} value={form.astrologyDetails.horoscopeChart.balance.years || ""}    onChange={handleChange} />
                       &nbsp;Year(s)&nbsp;&nbsp;
-                      <input type="text" className="TextBox" name="astrologyDetails.horoscopeChart.balance.months"  style={{ width: '60px' }} value={form.astrologyDetails.horoscopeChart.balance.months || ""}    onChange={handleChange} />
+                      <input type="text" className="horoscope-details-input" name="astrologyDetails.horoscopeChart.balance.months"  style={{ width: '60px' }} value={form.astrologyDetails.horoscopeChart.balance.months || ""}    onChange={handleChange} />
                       &nbsp;Month(s)&nbsp;&nbsp;
-                      <input type="text" className="TextBox" name="astrologyDetails.horoscopeChart.balance.days"  style={{ width: '60px' }} value={form.astrologyDetails.horoscopeChart.balance.days || ""}    onChange={handleChange} />
+                      <input type="text" className="horoscope-details-input" name="astrologyDetails.horoscopeChart.balance.days"  style={{ width: '60px' }} value={form.astrologyDetails.horoscopeChart.balance.days || ""}    onChange={handleChange} />
                       &nbsp;Day(s)
                     </div>
                   </td>
@@ -889,8 +1010,8 @@ export default function New_Registration() {
                       <tbody>
                         <tr>
                           {/* RASI Grid */}
-                          <td style={{ width: '400px', }}>
-                            <table width="100%">
+                          <td>
+                            <table >
                               <tbody>
                                 <tr>
                                   {[1, 2, 3, 4].map(i => {
@@ -900,8 +1021,7 @@ export default function New_Registration() {
                                 <td
                                   key={i}
                                   style={{
-                                  border: '2px solid #555555',
-                                  width: '100px', 
+                                  border: '2px solid #868686ff', 
                                   }}
                                   >
                                    <TextBox name={name} value={value} onChange={handleChange} />
@@ -912,8 +1032,7 @@ export default function New_Registration() {
                                 
                                 <tr>
                                   <td  style={{
-                                        border: '2px solid #555555',
-                                        width: '100px',
+                                        border: '2px solid #868686ff',
                                       }}>
                                     <TextBox name="astrologyDetails.horoscopeChart.rasi.txtHoro12" value = {form.astrologyDetails.horoscopeChart.rasi.txtHoro12} onChange={handleChange} />
                                     <TextBox name="astrologyDetails.horoscopeChart.rasi.txtHoro11" value = {form.astrologyDetails.horoscopeChart.rasi.txtHoro11} onChange={handleChange} />
@@ -922,7 +1041,7 @@ export default function New_Registration() {
                                   <td align="center">
                                     <b style={{ color: '#008000', fontFamily: 'Arial', fontSize: '18px', position: 'relative' , left: '50px'  }}>RASI</b>
                                   </td>
-                                  <td style={{ position: 'relative' , left: '113px', border: '2px solid #555555',
+                                  <td style={{ position: 'relative' , left: '113px', border: '2px solid #868686ff',
                                         width: '100px',}}>
                                     <TextBox name="astrologyDetails.horoscopeChart.rasi.txtHoro5" value = {form.astrologyDetails.horoscopeChart.rasi.txtHoro5} onChange={handleChange} />
                                     <TextBox name="astrologyDetails.horoscopeChart.rasi.txtHoro6" value = {form.astrologyDetails.horoscopeChart.rasi.txtHoro6} onChange={handleChange} />
@@ -936,7 +1055,7 @@ export default function New_Registration() {
                                 <td
                                   key={i}
                                   style={{
-                                  border: '2px solid #555555',
+                                  border: '2px solid #868686ff',
                                   width: '100px', 
                                   }}
                                   >
@@ -964,7 +1083,7 @@ export default function New_Registration() {
                                 <td
                                   key={i}
                                   style={{
-                                  border: '2px solid #555555',
+                                  border: '2px solid #868686ff',
                                   width: '100px', 
                                   }}
                                   >
@@ -976,7 +1095,7 @@ export default function New_Registration() {
                                 
                                 <tr>
                                   <td style={{
-                                        border: '2px solid #555555',
+                                        border: '2px solid #868686ff',
                                         width: '100px'  }}>
                                     <TextBox name="astrologyDetails.horoscopeChart.amsam.txtAmsam12" value = {form.astrologyDetails.horoscopeChart.amsam.txtAmsam12} onChange={handleChange} />
                                     <TextBox name="astrologyDetails.horoscopeChart.amsam.txtAmsam11" value = {form.astrologyDetails.horoscopeChart.amsam.txtAmsam11} onChange={handleChange} /> 
@@ -985,7 +1104,7 @@ export default function New_Registration() {
                                   <td align="center">
                                     <b style={{ color: '#008000', fontFamily: 'Arial', fontSize: '18px' , position: 'relative' , left: '50px' }}>AMSAM</b>
                                   </td>
-                                   <td style={{ position: 'relative' , left: '113px',  border: '2px solid #555555',
+                                   <td style={{ position: 'relative' , left: '113px',  border: '2px solid #868686ff',
                                         width: '100px'}}>
                                     <TextBox name="astrologyDetails.horoscopeChart.amsam.txtAmsam5" value = {form.astrologyDetails.horoscopeChart.amsam.txtAmsam5} onChange={handleChange} />
                                     <TextBox name="astrologyDetails.horoscopeChart.amsam.txtAmsam6" value = {form.astrologyDetails.horoscopeChart.amsam.txtAmsam6} onChange={handleChange} />
@@ -999,8 +1118,8 @@ export default function New_Registration() {
                                 <td
                                   key={i}
                                   style={{
-                                  border: '2px solid #555555',
-                                  width: '100px', 
+                                  border: '2px solid #868686ff',
+                                  width: '100px',
                                   }}
                                   >
                                    <TextBox name={name} value={value} onChange={handleChange} />
@@ -1029,16 +1148,20 @@ export default function New_Registration() {
   <legend className="partner-expectation-legend">
     Partner Expectation Details (வாழ்க்கை துணை பற்றிய எதிர்பார்ப்பு)
   </legend>
-  <div style={{ display: "flex", flexWrap: "wrap", gap: "14px 7px" }}>
-    <label>Qualification: <input name="partnerExpectation.qualification" value={form.partnerExpectation.qualification || ""} onChange={handleChange} style={{ width: 130 }} /></label>
-    <label>Job: <input name="partnerExpectation.job" value={form.partnerExpectation.job || ""} onChange={handleChange} style={{ width: 110 }} /></label>
-    <label>Job:&nbsp;
+  <div className="partner-expectation-row" style={{ display: "flex", flexWrap: "wrap", gap: "14px 7px" }}>
+    <label style={{ position: "relative", left: "100px" }}>Qualification: <input name="partnerExpectation.qualification" 
+    value={form.partnerExpectation.qualification || ""} onChange={handleChange} style={{ width: 130 }} /></label>
+    <label style={{ position: "relative", left: "160px" }}>Job: <input name="partnerExpectation.job" value={form.partnerExpectation.job || ""} onChange={handleChange} style={{ width: 110 }} /></label>
+    <label style={{ position: "relative", left: "220px" }}>Job:&nbsp;
       <input type="radio" name="partnerExpectation.jobRequired" value="Must" checked={form.partnerExpectation.jobRequired==="Must"} onChange={handleChange} />Must&nbsp;
       <input type="radio" name="partnerExpectation.jobRequired" value="Optional" checked={form.partnerExpectation.jobRequired==="Optional"} onChange={handleChange} />Optional&nbsp;
       <input type="radio" name="partnerExpectation.jobRequired" value="Not required" checked={form.partnerExpectation.jobRequired==="Not required"} onChange={handleChange} />Not required
     </label>
-    <label>Income Per Month: <input name="partnerExpectation.income" value={form.partnerExpectation.income || ""} onChange={handleChange} style={{ width: 110 }} /></label>
-    <label>Preferred Age: 
+    
+    </div>
+    <div className="partner-expectation-row" style={{ display: "flex", flexWrap: "wrap", gap: "14px 7px" }}>
+      <label style={{ position: "relative", left: "60px" }}>Income Per Month: <input name="partnerExpectation.income" value={form.partnerExpectation.income || ""} onChange={handleChange} style={{ width: 110 }} /></label>
+    <label style={{ position: "relative", left: "80px" }}>Preferred Age: 
       <select name="partnerExpectation.age.from" value={form.partnerExpectation.age.from || ""} onChange={handleChange}>
         <option value="">Select</option>
         {[...Array(31).keys()].slice(18).map(n => (
@@ -1052,8 +1175,8 @@ export default function New_Registration() {
         ))}
       </select>
     </label>
-    <label>
-  Diet:
+    <label style={{ position: "relative", left: "138.5px", top: "5px" }}>
+  Diet: &nbsp;
   <input 
     type="checkbox" 
     name="partnerExpectation.diet.vegetarian" 
@@ -1068,7 +1191,7 @@ export default function New_Registration() {
         }
       }
     }))} 
-  /> Vegetarian&nbsp;
+  />&nbsp;Vegetarian&nbsp;
 
   <input type="checkbox" name="partnerExpectation.diet.nonVegetarian" checked={!!form.partnerExpectation.diet.nonVegetarian} 
     onChange={e => setForm(f => ({
@@ -1081,8 +1204,8 @@ export default function New_Registration() {
         }
       }
     }))} 
-  /> Non-Vegetarian&nbsp;
-
+  /> Non-Vegetarian &nbsp;
+<br></br> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
   <input 
     type="checkbox" 
     name="partnerExpectation.diet.eggetarian" 
@@ -1097,7 +1220,7 @@ export default function New_Registration() {
         }
       }
     }))} 
-  /> Eggetarian&nbsp;
+  /> &nbsp;Eggetarian&nbsp;
 
   <input 
     type="checkbox" 
@@ -1116,12 +1239,15 @@ export default function New_Registration() {
   /> Doesn't Matter&nbsp;
 </label>
 
-    <label>Horoscope Required:&nbsp;
+    
+</div>
+  <div className="partner-expectation-row" style={{ display: "flex", flexWrap: "wrap", gap: "14px 7px" }}>
+    <label style={{ position: "relative", left: "45px" }}>
+      Horoscope Required:&nbsp;
       <input type="radio" name="partnerExpectation.horoscopeRequired" value="Yes" checked={form.partnerExpectation.horoscopeRequired==="Yes"} onChange={handleChange} /> Yes
       <input type="radio" name="partnerExpectation.horoscopeRequired" value="No" checked={form.partnerExpectation.horoscopeRequired==="No"} onChange={handleChange} /> No
     </label>
-
-    <label>
+    <label style={{ position: "relative", left: "100px", fontSize: "15px" }}>
   Marital Status:&nbsp;
   <input 
     type="checkbox" 
@@ -1203,13 +1329,14 @@ export default function New_Registration() {
     }))} 
   /> Doesn't Matter
 </label>
-
-
-     <label>Caste: <input name="partnerExpectation.caste" value={form.partnerExpectation.caste || ""} onChange={handleChange} style={{ width: 130 }} /></label>
-    <label>Sub Caste: <input name="partnerExpectation.subcaste" value={form.partnerExpectation.subcaste || ""} onChange={handleChange} style={{ width: 130 }} /> - </label>
+</div>
+  <div className="partner-expectation-row" style={{ display: "flex", flexWrap: "wrap", gap: "14px 7px" }}>
+ <div className="partner-expectation-row" style={{ flexBasis: "100%" }}></div> {/* Force new line */}
+     <label style={{ position: "relative", left: "155px", fontSize: "15px" }}>Caste: <input name="partnerExpectation.caste" value={form.partnerExpectation.caste || ""} onChange={handleChange} style={{ width: 130 }} /></label>
+    <label style={{ position: "relative", left: "190px", fontSize: "15px" }}>Sub Caste: <input name="partnerExpectation.subcaste" value={form.partnerExpectation.subcaste || ""} onChange={handleChange} style={{ width: 130 }} /></label>
   </div>
-  <div style={{ margin: "10px 0" }}>
-    <label>
+  <div className="partner-expectation-row" style={{ margin: "10px 0", flexDirection: "row" }}>
+    <label style={{ position: "relative", left: "70px", fontSize: "15px", width: "50%"  }}>
       Any other Comments: <br />
       <textarea name="partnerExpectation.anyOtherExpectation" value={form.partnerExpectation.anyOtherExpectation || ""} onChange={handleChange} rows={3} style={{ width: "98%" }} />
     </label>
@@ -1219,6 +1346,7 @@ export default function New_Registration() {
 {/* ====================== PHOTO SECTION ====================== */}
 <fieldset className="photo-section">
       <legend className="photo-section-legend">Photo</legend>
+      <div className="photo-section-content">
       {[0, 1].map((idx) => (
         <div style={{ display: "flex", alignItems: "center", margin: "16px 0" }} key={idx}>
           <div style={{ textAlign: "center", marginRight: 16 }}>
@@ -1255,54 +1383,162 @@ export default function New_Registration() {
           </div>
         </div>
       ))}
+      </div>
     </fieldset>
 
 {/* =================== SCHEME DETAILS =================== */}
 <fieldset className="scheme-details-section">
   <legend className="scheme-details-legend">Scheme Details</legend>
-  <div style={{ display: "flex", flexWrap: "wrap", gap: "0 16px" }}>
-    <label>Scheme*:
+   <div className="scheme-details-row" style={{ display: "flex", flexWrap: "wrap", gap: "14px 7px" }}>
+    <label style={{ position: "relative", left: "10px", top: "10px", fontSize: "18px" }} >Scheme*:
       <select name="schemeDetails.scheme" value={form.schemeDetails.scheme || ""} onChange={handleChange}>
         <option value="">Select</option>
-        <option value="Gold">Gold</option>
-        <option value="Silver">Silver</option>
+        <option value="Registed">One Time Reg Charge</option>
+        
       </select>
     </label>
-    <label>User Name (Login)*:
+    <label style={{ position: "relative", left: "30px", top: "10px", fontSize: "18px" }}>User Name (Login)*:
       <input type="email" name="schemeDetails.username" value={form.schemeDetails.username || ""} onChange={handleChange} placeholder="Eg: xxxxxxxx@yyyyy.com" required />
     </label>
-    <label>Password*:
+    <label style={{ position: "relative", left: "133px", top: "10px", fontSize: "18px" }}>Password*:
       <input type="password" name="schemeDetails.password" value={form.schemeDetails.password || ""} onChange={handleChange} required />
     </label>
-    <label>
-      <input type="checkbox" name="schemeDetails.acceptTerms" checked={!!form.schemeDetails.acceptTerms} onChange={e => setForm(f => ({...f, schemeDetails: {
-        ...f.schemeDetails,
-        acceptTerms: e.target.checked  // update nested field, not root!
-      }
-    }))} required/>
-      &nbsp;I accept the <span style={{ color: "#0066cc", textDecoration: "underline", cursor: "pointer" }}>Terms & Conditions</span>
+
+    <label style={{ position: "relative", left: "650px", top: "6px", fontSize: "18px" }}>Confirm Password*:
+      <input type="password" name="schemeDetails.confirmPassword" value={form.schemeDetails.confirmPassword || ""} onChange={handleChange} required />
     </label>
+    </div>
+    <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, marginLeft: 10, fontSize: "18px", position: "relative", left: "40px"  }}>
+      <input 
+        type="checkbox" 
+        name="schemeDetails.acceptTerms" 
+        className="scheme-details-row"
+        style={{ width: 18, height: 18 }} // <-- Increased size
+        checked={!!form.schemeDetails.acceptTerms} 
+        onChange={e => setForm(f => ({...f, schemeDetails: {
+          ...f.schemeDetails,
+          acceptTerms: e.target.checked  // update nested field, not root!
+        }
+      }))} required/>
+      &nbsp;I accept the<div>
+      {/* Trigger Link */}
+      <span
+        style={{ color: "#0066cc", textDecoration: "underline", cursor: "pointer" }}
+        onClick={() => setShowPopup(true)}
+      >
+        Terms & Conditions
+      </span>
+
+      {/* Popup */}
+      {showPopup && (
+        <div className="terms-popup-overlay">
+          <div className="terms-popup">
+            {/* Close Button */}
+            <button className="terms-close" onClick={() => setShowPopup(false)}>
+              ×
+            </button>
+
+            {/* Popup Content */}
+            <h2>Terms & Conditions</h2>
+            <p>
+              IF YOU DON'T KNOW TAMIL DON'T REGISTER IN{" "}
+              <a href="http://www.SornamMatrimony.com" target="_blank" rel="noreferrer">
+                www.SornamMatrimony.com
+              </a>
+            </p>
+
+            <div className="terms-content">
+              <p>
+                சொர்ணம் மேட்ரிமோனி.காம் இங்கு நான் கொடுக்கப்பட்ட தகவல் அனைத்தும் உண்மை என உறுதி
+                கூறுகிறேன். சொர்ணம்மேட்ரிமோனி.காம் திருமணத்துக்கான மணமகன்/மணமகலின் அறிமுக தகவல் பாலம்
+                மட்டுமே என்பதை அறிவேன் ,மேற்படி எந்தவித பொறுப்பும் சொர்ணம் மேட்ரிமோனி.காம் க்கு இல்லை
+                என்பதை ஏற்கிறேன்,
+              </p>
+              <p>
+                சொர்ணம் மேட்ரிமோனி.காம் இல் தொடர்ந்து வரும் வரன்களின் தகவல்களின் உண்மை தரத்தை /
+                உண்மை தன்மையும் அறிந்து புரிந்து பின் தாங்களே திருமண முயற்சி செய்து கொள்ளவேண்டும் இது
+                விளம்பர பதிவாளர்களான வரன் / பெற்றோர்களான தங்களின் முழு பொறுப்பு
+              </p>
+              <p>
+                வரன் பதிவுகள் அதிகபட்சம் மூன்று வருடம் மட்டுமே அதற்கு பின் இலவசமாக அதே பதிவு எண்ணில்
+                பதிவாளரான தாங்களே இலவச மறு பதிவு செய்துகொள்ள வேண்டு அப்படி இல்லாத பட்சத்தில் பதிவு
+                நீக்கப்பட சொர்ணம் மேட்ரிமோனி.காம் உரிமை உண்டு
+              </p>
+              <p>
+                மேற்படி சொர்ணம் மேட்ரிமோனி.காம் இணையதளத்தின் தகவலின் எழுத்து ,வண்ணபடம் ,ஜாதகம்,தொலைபேசி எண் ,வேலை,படிப்பு ,சொத்து விபரங்கள்.... மற்ற விளம்பர தகவல்களில் ஏற்படும் தற்செயலான தட்டச்சு தவறுகள் தொழில்நுட்ப தவறுகள்/ எதிர்பாராத இணையத்தள தொழில்நுட்ப தவறுகளை தாங்கள்தான் தொடர்ந்து சரிபார்த்து எங்களிடம் சரிசெய்ய எங்கள் இணையதள மினஞ்சல் முகவரிக்கு அனுப்பி அல்லது தாங்களே நேரில் / இணையதள வழி சரி செய்துகொள்ள வேண்டும்
+              </p>
+              <p>
+                சொர்ணம் மேட்ரிமோனி.காம் இணையதள விளம்பர சேவை மற்றும் சட்ட திட்டங்களில் எழும் சந்தேகங்களை அறிந்து புரிந்து பின் திருமண வரன்/ பெற்றோர் பதிவு செய்வது வரன் பதிவாளர் பொறுப்பு
+</p>
+              
+              <p>
+                சொர்ணம் மேட்ரிமோனி.காம் இல் பதிவான தகவல்கள் அனைத்தும் தனிப்பட்ட தகவல்கள் ஆகும் எனவே அந்த தகவல்களை சொர்ணம் மேட்ரிமோனி.காம் இல் பதிவு செய்தவரின் அனுமதி இல்லாமல் எந்தவித மூன்றாம் நபருக்கும் தெரியப்படுத்த மாட்டேன் என உறுதி கூறுகிறேன்
+              </p>
+              <p>
+                சொர்ணம் மேட்ரிமோனி.காம் இல் பதிவான தகவல்களை தவறான வழிகளிலோ அல்லது வருமானம் சம்பாதிக்கும் செயல் செய்யமாட்டேன் என உறுதி கூறுகிறேன்
+              </p>
+              <p>
+                சொர்ணம்மேட்ரிமோனி.காம் இல் பதிவான தகவல்களை தவறான வழிகளிலோ அல்லது வருமானம் சம்பாதிக்கும் செயல் செய்யமாட்டேன் என உறுதி கூறுகிறேன்
+              </p>
+              <p>
+                திருமண வரன் பதிவாளர் / இலவச பார்வையாளர்களுக்காக ; சொர்ணம் மேட்ரிமோனி.காம் தகவல்களை தவறான படி பயன்படுத்த மாட்டேன் என்றும் சொர்ணம்மேட்ரிமோனி.காம் இன் அனுமதி இல்லாமல் எந்தவித தகவலையும் தவறான வழிகளிலோ அல்லது வருமானம் சம்பாதிக்கும் செயல் செய்யமாட்டேன் என உறுதி கூறுகிறேன், அப்படி நான் தவறு செய்தால் சொர்ணம் மேட்ரிமோனி.காம் எடுக்கும் சட்ட முறையீடுக்கு கட்டுப்படுகிறேன். மேற்படி இந்த இணையவழி திருமண சேவைக்கு எனது பாராட்டையும் நன்றியையும் சமர்ப்பிக்கிறேன் மேலும் மேலும் இந்த திருமண சேவை எல்லோரையும் சென்றடைய வாழ்த்துகிறேன்<br></br> நன்றி. ..நன்றி...நன்றி...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+    </label>
+
+  <div style={{ margin: "18px 0 0", color: "#006633", fontWeight: "bold", fontSize: 18 }}>
+    For 3 Years, Registration Fees Rs.1000 to advertise your profile in our SornamMatrimony.org website & Mobile App.
   </div>
-  <div style={{ margin: "18px 0 0", color: "#006633", fontWeight: "bold", fontSize: 13 }}>
-    For 3 Years, Registration Fees Rs.1000 to advertise your profile in our Thillaimatrimony.org website & Mobile App.
-  </div>
-  <div style={{ color: "red", fontSize: 13, fontWeight: "bold" }}>
-    Note: After registered your profile in our website, Your Profile will be maintain only if you pay the registration amount within 1 day or else we will delete your profile.
-    Please send me your payment copy with Website registration number, name and mobile number by Email: <a href="mailto:dumdummarriage@gmail.com">dumdummarriage@gmail.com</a>,
-    For Enquiry Contact this <b>Mobile : +91-9489331973</b>
+  <div style={{ color: "red", fontSize: 15, fontWeight: "bold" }}>
+    Note: After registered your profile in our website, Your Profile will be maintain only if you pay the registration amount within 1 day or else we will delete your profile.<br></br>
+    Please send me your payment copy with Website registration number, name and mobile number by Email: <a href="mailto:Sornammatrimatrimony@gmail.com">Sornammatrimatrimony@gmail.com</a>,<br></br> WhatsApp or SMS to our Mobile : +91-8056484898
+    For Enquiry Contact this <b>Mobile : +91-8056484898</b>
   </div>
 </fieldset>
 
 {/* ======= SUBMIT BUTTON ======= */}
-<div style={{ textAlign: "center", margin: "32px 0 0" }}>
-  <button type="submit" style={{
-    background: "#006633", color: "#fff",
-    fontWeight: "bold", padding: "8px 50px",
-    fontSize: 18, border: "none", borderRadius: 7, boxShadow: "0 2px 6px #bbb"
-  }}>
+{/* ======= SUBMIT BUTTON ======= */}
+<div style={{ textAlign: "center", margin: "32px 0 40px" }}>
+  <button
+    type="submit"
+    style={{
+      background: "#006633",
+      color: "#fff",
+      fontWeight: "bold",
+      padding: "10px 55px",
+      fontSize: 18,
+      border: "none",
+      borderRadius: 7,
+      boxShadow: "0 3px 8px #aaa",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+    }}
+    onMouseOver={(e) => {
+      e.target.style.background = "#00994d";
+      e.target.style.transform = "scale(1.05)";
+      e.target.style.boxShadow = "0 4px 12px #888";
+    }}
+    onMouseOut={(e) => {
+      e.target.style.background = "#006633";
+      e.target.style.transform = "scale(1)";
+      e.target.style.boxShadow = "0 3px 8px #aaa";
+    }}
+    onMouseDown={(e) => {
+      e.target.style.transform = "scale(0.97)";
+    }}
+    onMouseUp={(e) => {
+      e.target.style.transform = "scale(1.05)";
+    }}
+  >
     Submit
   </button>
 </div>
+
+
     </form>
   </div>
   );
