@@ -979,10 +979,6 @@ a.Grid_Link:hover {
 
   /* Labels stay same size */
   .personal-details-label,
-  .physical-attributes-label,
-  .education-occupation-label,
-  .astrology-details-label,
-  .communication-details-label,
   .partner-expectation-label,
   .scheme-details-label {
     flex: 0 0 140px; /* fixed width, adjust if needed */
