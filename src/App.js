@@ -1,5 +1,3 @@
-import Footer from "./component/Footer";
-import Header from "./component/Header";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SornamMatrimony from './component/Home.jsx';
 import New_Registration from './component/New_Registration.jsx';
